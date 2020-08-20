@@ -63,4 +63,5 @@ public class VacinaVO {
 		this.pesquisador = pesquisador;
 	}
 	
+	
 }
