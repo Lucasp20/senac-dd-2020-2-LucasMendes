@@ -2,15 +2,15 @@ package model.vo;
 
 public class PessoaVO {
 
-	private int idUsuario;
+	private int idPessoa;
 	private String nome;
 	private String dataNascimento;
 	private char sexo;
 	private String cpf;
 	
-	public PessoaVO(int idUsuario, String nome, String dataNascimento, char sexo, String cpf) {
+	public PessoaVO(int idPessoa, String nome, String dataNascimento, char sexo, String cpf) {
 		super();
-		this.idUsuario = idUsuario;
+		this.idPessoa = idPessoa;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.sexo = sexo;
@@ -21,10 +21,10 @@ public class PessoaVO {
 		
 	}
 	public int getIdUsuario() {
-		return idUsuario;
+		return idPessoa;
 	}
 	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
+		this.idPessoa = idUsuario;
 	}
 	public String getNome() {
 		return nome;
