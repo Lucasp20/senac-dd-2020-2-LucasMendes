@@ -4,13 +4,12 @@ public class InstituicaoVO {
 	
 	private String nome;
 	private String cnpj;
-	private EnderecoVO endereco;
 	
-	public InstituicaoVO(String nome, String cnpj, EnderecoVO endereco) {
+	
+	public InstituicaoVO(String nome, String cnpj) {
 		super();
 		this.nome = nome;
 		this.cnpj = cnpj;
-		this.endereco = endereco;
 	}
 	
 	public InstituicaoVO() {
@@ -33,15 +32,5 @@ public class InstituicaoVO {
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
-
-	public EnderecoVO getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(EnderecoVO endereco) {
-		this.endereco = endereco;
-	}
-	
-	
 	
 }
