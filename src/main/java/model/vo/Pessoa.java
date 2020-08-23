@@ -1,6 +1,6 @@
 package model.vo;
 
-public class PessoaVO {
+public class Pessoa {
 
 	private int idPessoa;
 	private String nome;
@@ -8,7 +8,7 @@ public class PessoaVO {
 	private char sexo;
 	private String cpf;
 	
-	public PessoaVO(int idPessoa, String nome, String dataNascimento, char sexo, String cpf) {
+	public Pessoa(int idPessoa, String nome, String dataNascimento, char sexo, String cpf) {
 		super();
 		this.idPessoa = idPessoa;
 		this.nome = nome;
@@ -16,7 +16,7 @@ public class PessoaVO {
 		this.sexo = sexo;
 		this.cpf = cpf;
 	}
-	public PessoaVO() {
+	public Pessoa() {
 		super();
 		
 	}

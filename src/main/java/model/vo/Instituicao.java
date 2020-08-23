@@ -1,18 +1,18 @@
 package model.vo;
 
-public class InstituicaoVO {
+public class Instituicao {
 	
 	private String nome;
 	private String cnpj;
 	
 	
-	public InstituicaoVO(String nome, String cnpj) {
+	public Instituicao(String nome, String cnpj) {
 		super();
 		this.nome = nome;
 		this.cnpj = cnpj;
 	}
 	
-	public InstituicaoVO() {
+	public Instituicao() {
 		super();
 		
 	}

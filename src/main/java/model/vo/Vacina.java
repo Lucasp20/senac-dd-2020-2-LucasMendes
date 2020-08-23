@@ -1,15 +1,15 @@
 package model.vo;
 
-public class VacinaVO {
+public class Vacina {
 		
 	private int idVacina;
 	private String paisOrigem;
 	private int estagioPesquisa;
 	private String dtInicioPesquisa;
-	private PesquisadorVO pesquisador;
+	private Pesquisador pesquisador;
 	
-	public VacinaVO(int idVacina, String paisOrigem, int estagioPesquisa, String dtInicioPesquisa,
-			PesquisadorVO pesquisador) {
+	public Vacina(int idVacina, String paisOrigem, int estagioPesquisa, String dtInicioPesquisa,
+			Pesquisador pesquisador) {
 		super();
 		this.idVacina = idVacina;
 		this.paisOrigem = paisOrigem;
@@ -18,7 +18,7 @@ public class VacinaVO {
 		this.pesquisador = pesquisador;
 	}
 	
-	public VacinaVO() {
+	public Vacina() {
 		super();
 		
 	}
@@ -55,11 +55,11 @@ public class VacinaVO {
 		this.dtInicioPesquisa = dtInicioPesquisa;
 	}
 
-	public PesquisadorVO getPesquisador() {
+	public Pesquisador getPesquisador() {
 		return pesquisador;
 	}
 
-	public void setPesquisador(PesquisadorVO pesquisador) {
+	public void setPesquisador(Pesquisador pesquisador) {
 		this.pesquisador = pesquisador;
 	}
 	
