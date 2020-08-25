@@ -10,9 +10,8 @@ import java.sql.Statement;
 
 	public class Banco {
 
-		private static final String DRIVER = "com.mysql.jdbc.Driver"; 
+		private static final String DRIVER = "com.mysql.cj.jdbc.Driver"; 
 		private static final String BANCODADOS = "covid19";
-		private static final String URL_MYSQL = "jdbc:mysql://localhost:3306/";
 		private static final String BUGFIX_HORABR = "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		private static final String CONEXAO =  "jdbc:mysql://localhost:3306/" + BANCODADOS  + BUGFIX_HORABR;
 		private static final String USER = "root";
