@@ -7,6 +7,7 @@ public class Pessoa {
 	private String dataNascimento;
 	private char sexo;
 	private String cpf;
+	private int tipoPessoa;
 	
 	public Pessoa(int idPessoa, String nome, String dataNascimento, char sexo, String cpf) {
 		super();
@@ -15,11 +16,13 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 		this.sexo = sexo;
 		this.cpf = cpf;
+		
 	}
 	public Pessoa() {
 		super();
 		
 	}
+	
 	public int getIdUsuario() {
 		return idPessoa;
 	}

@@ -22,7 +22,7 @@ public class Vacina {
 		super();
 		
 	}
-
+	
 	public int getIdVacina() {
 		return idVacina;
 	}
