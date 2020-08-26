@@ -5,12 +5,12 @@ public class Pessoa {
 	private int idPessoa;
 	private String nome;
 	private String dataNascimento;
-	private char sexo;
+	private int sexo;
 	private String cpf;
 	private int reacao;
 	private int tipoPessoa;
 	
-	public Pessoa(int idPessoa, String nome, String dataNascimento, char sexo, String cpf, int reacao, int tipoPessoa) {
+	public Pessoa(int idPessoa, String nome, String dataNascimento, int sexo, String cpf, int reacao, int tipoPessoa) {
 		super();
 		this.idPessoa = idPessoa;
 		this.nome = nome;
@@ -26,6 +26,7 @@ public class Pessoa {
 		super();
 		
 	}
+
 
 	public int getIdPessoa() {
 		return idPessoa;
@@ -51,11 +52,11 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public char getSexo() {
+	public int getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(char sexo) {
+	public void setSexo(int sexo) {
 		this.sexo = sexo;
 	}
 
