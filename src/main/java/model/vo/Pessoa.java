@@ -1,26 +1,35 @@
 package model.vo;
 
-public class Pessoa {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+public class Pessoa {
+	
+DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	
 	private int idPessoa;
 	private String nome;
-	private String dataNascimento;
+	private LocalDate dataNascimento;
 	private int sexo;
 	private String cpf;
 	private int reacao;
-	private int tipoPessoa;
+	private LocalDate dataVacinacao;
+	private boolean voluntario;
 	
-	public Pessoa(int idPessoa, String nome, String dataNascimento, int sexo, String cpf, int reacao, int tipoPessoa) {
+	public Pessoa(DateTimeFormatter dataFormatter, int idPessoa, String nome, LocalDate dataNascimento, int sexo,
+			String cpf, int reacao, LocalDate dataVacinacao, boolean voluntario) {
 		super();
+		this.dataFormatter = dataFormatter;
 		this.idPessoa = idPessoa;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.sexo = sexo;
 		this.cpf = cpf;
 		this.reacao = reacao;
-		this.tipoPessoa = tipoPessoa;
-		
+		this.dataVacinacao = dataVacinacao;
+		this.voluntario = voluntario;
 	}
+	
 	
 	public Pessoa() {
 		super();
@@ -28,60 +37,93 @@ public class Pessoa {
 	}
 
 
+	public DateTimeFormatter getDataFormatter() {
+		return dataFormatter;
+	}
+
+
+	public void setDataFormatter(DateTimeFormatter dataFormatter) {
+		this.dataFormatter = dataFormatter;
+	}
+
+
 	public int getIdPessoa() {
 		return idPessoa;
 	}
+
 
 	public void setIdPessoa(int idPessoa) {
 		this.idPessoa = idPessoa;
 	}
 
+
 	public String getNome() {
 		return nome;
 	}
+
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public String getDataNascimento() {
+
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(String dataNascimento) {
+
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+
 
 	public int getSexo() {
 		return sexo;
 	}
 
+
 	public void setSexo(int sexo) {
 		this.sexo = sexo;
 	}
+
 
 	public String getCpf() {
 		return cpf;
 	}
 
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 
 	public int getReacao() {
 		return reacao;
 	}
 
+
 	public void setReacao(int reacao) {
 		this.reacao = reacao;
 	}
 
-	public int getTipoPessoa() {
-		return tipoPessoa;
+
+	public LocalDate getDataVacinacao() {
+		return dataVacinacao;
 	}
 
-	public void setTipoPessoa(int tipoPessoa) {
-		this.tipoPessoa = tipoPessoa;
+
+	public void setDataVacinacao(LocalDate dataVacinacao) {
+		this.dataVacinacao = dataVacinacao;
 	}
 
+
+	public boolean isVoluntario() {
+		return voluntario;
+	}
+
+
+	public void setVoluntario(boolean voluntario) {
+		this.voluntario = voluntario;
+	}
+	
 }

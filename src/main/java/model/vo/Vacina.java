@@ -1,20 +1,25 @@
 package model.vo;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Vacina {
 		
+	DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	
 	private int idVacina;
 	private String paisOrigem;
 	private int estagioPesquisa;
-	private String dtInicioPesquisa;
+	private LocalDate dataInicioPesquisa;
 	private Pesquisador pesquisador;
 	
-	public Vacina(int idVacina, String paisOrigem, int estagioPesquisa, String dtInicioPesquisa,
+	public Vacina(int idVacina, String paisOrigem, int estagioPesquisa, LocalDate dataInicioPesquisa,
 			Pesquisador pesquisador) {
 		super();
 		this.idVacina = idVacina;
 		this.paisOrigem = paisOrigem;
 		this.estagioPesquisa = estagioPesquisa;
-		this.dtInicioPesquisa = dtInicioPesquisa;
+		this.dataInicioPesquisa = dataInicioPesquisa;
 		this.pesquisador = pesquisador;
 	}
 	
@@ -22,7 +27,7 @@ public class Vacina {
 		super();
 		
 	}
-	
+
 	public int getIdVacina() {
 		return idVacina;
 	}
@@ -47,12 +52,12 @@ public class Vacina {
 		this.estagioPesquisa = estagioPesquisa;
 	}
 
-	public String getDtInicioPesquisa() {
-		return dtInicioPesquisa;
+	public LocalDate getDataInicioPesquisa() {
+		return dataInicioPesquisa;
 	}
 
-	public void setDtInicioPesquisa(String dtInicioPesquisa) {
-		this.dtInicioPesquisa = dtInicioPesquisa;
+	public void setDataInicioPesquisa(LocalDate dataInicioPesquisa) {
+		this.dataInicioPesquisa = dataInicioPesquisa;
 	}
 
 	public Pesquisador getPesquisador() {
@@ -62,5 +67,6 @@ public class Vacina {
 	public void setPesquisador(Pesquisador pesquisador) {
 		this.pesquisador = pesquisador;
 	}
+	
 	
 }

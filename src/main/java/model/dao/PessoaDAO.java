@@ -17,9 +17,10 @@ public class PessoaDAO {
 							+ pessoa.getNome() +"', '"
 							+ pessoa.getDataNascimento() +"', "
 							+ pessoa.getSexo() +", '"
-							+ pessoa.getCpf() +"', "
-							+ pessoa.getReacao() + ",'"
-							+ pessoa.getTipoPessoa() + "') ";
+							+ pessoa.getCpf() + "', '"
+							+ pessoa.getReacao() + "', '"
+							+ pessoa.getDataVacinacao() + "', '"
+							+ pessoa.isVoluntario() + "') ";
 			try {
 				resultado = stmt.executeUpdate(query);
 			} catch (SQLException e) {
