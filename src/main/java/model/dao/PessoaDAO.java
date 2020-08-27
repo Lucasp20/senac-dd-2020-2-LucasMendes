@@ -15,12 +15,12 @@ public class PessoaDAO {
 			
 					String query = "INSERT INTO `pessoa` VALUES (NULL, '"
 							+ pessoa.getNome() +"', '"
-							+ pessoa.getDataNascimento() +"', "
-							+ pessoa.getSexo() +", '"
+							+ pessoa.getDataNascimento() +"', '"
+							+ pessoa.getSexo() +"', '"
 							+ pessoa.getCpf() + "', '"
 							+ pessoa.getReacao() + "', '"
-							+ pessoa.getDataVacinacao() + "', '"
-							+ pessoa.isVoluntario() + "') ";
+							+ pessoa.getDataVacinacao() + "', "
+							+ pessoa.isVoluntario() + " ) ";
 			try {
 				resultado = stmt.executeUpdate(query);
 			} catch (SQLException e) {

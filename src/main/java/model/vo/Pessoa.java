@@ -8,14 +8,14 @@ public class Pessoa {
 	private int idPessoa;
 	private String nome;
 	private LocalDate dataNascimento;
-	private int sexo;
+	private String sexo;
 	private String cpf;
 	private int reacao;
 	private LocalDate dataVacinacao;
 	private boolean voluntario;
 	
 	
-	public Pessoa(int idPessoa, String nome, LocalDate dataNascimento, int sexo, String cpf, int reacao,
+	public Pessoa(int idPessoa, String nome, LocalDate dataNascimento, String sexo, String cpf, int reacao,
 			LocalDate dataVacinacao, boolean voluntario) {
 		super();
 		this.idPessoa = idPessoa;
@@ -57,11 +57,11 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public int getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(int sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 

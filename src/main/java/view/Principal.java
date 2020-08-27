@@ -19,7 +19,7 @@ public class Principal {
 		Pessoa pessoa = new Pessoa();
 		pessoa.setNome("Pereira Lucas");
 		pessoa.setDataNascimento(LocalDate.parse("10/10/2000", dataFormatter));	
-		pessoa.setSexo(1);
+		pessoa.setSexo("MASCULINO");
 		pessoa.setCpf("9393939393");
 		pessoa.setReacao(1);
 		pessoa.setDataVacinacao(LocalDate.parse("12/08/2020", dataFormatter));	

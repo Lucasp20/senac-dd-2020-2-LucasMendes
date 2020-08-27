@@ -7,7 +7,7 @@ public class Pesquisador extends Pessoa {
 	
 	private Instituicao instituicao;
 
-	public Pesquisador(int idPessoa, String nome, LocalDate dataNascimento, int sexo, String cpf, int reacao,
+	public Pesquisador(int idPessoa, String nome, LocalDate dataNascimento, String sexo, String cpf, int reacao,
 			LocalDate dataVacinacao, boolean voluntario, Instituicao instituicao) {
 		super(idPessoa, nome, dataNascimento, sexo, cpf, reacao, dataVacinacao, voluntario);
 		this.instituicao = instituicao;
