@@ -1,7 +1,6 @@
 package model.vo;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Voluntario extends Pessoa{
 
