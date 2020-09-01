@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -35,21 +36,24 @@ public class PessoaDAO {
 		}
 		
 		public static int excluir(int idPessoa) {
-			Connection conn = Banco.getConnection();
-			Statement stmt = Banco.getStatement(conn);
+			Connection conexao = Banco.getConnection();
+			
+			String sql = "DELETE FROM pessoa WHERE idPessoa = " + idPessoa;
+
+			PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
 			int resultado = 0;
 				
-			String query = "DELETE FROM pessoa WHERE idpessoa = " + idPessoa;
-						
 			try {
-			resultado = stmt.executeUpdate(query);
+								
+				int codigoRetorno = query.executeUpdate();
+				
 			} catch (SQLException e) {
-				System.out.println("Erro ao executar a query de exclusão pessoa");
-				System.out.println("Erro: " + e.getMessage());
-			} finally {
-				Banco.closeStatement(stmt);
-				Banco.closeConnection(conn);
+				System.out.println("Erro ao excluir Pessoa (id: " + idPessoa + ") .\nCausa: " + e.getMessage());
+			}finally {
+				Banco.closeStatement(query);
+				Banco.closeConnection(conexao);
 			}
+					
 			return resultado;
 		}
 }

@@ -27,7 +27,7 @@ public class Principal {
 		
 		PessoaDAO.inserir(pessoa); */
 		
-		PessoaDAO.excluir(1);
+		PessoaDAO.excluir(2);
 	
 	
 	}
