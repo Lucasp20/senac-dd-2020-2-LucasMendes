@@ -33,5 +33,24 @@ public class PessoaDAO {
 		
 			return resultado;
 		}
+		
+		public static int excluir(int idPessoa) {
+			Connection conn = Banco.getConnection();
+			Statement stmt = Banco.getStatement(conn);
+			int resultado = 0;
+				
+			String query = "DELETE FROM pessoa WHERE idpessoa = " + idPessoa;
+						
+			try {
+			resultado = stmt.executeUpdate(query);
+			} catch (SQLException e) {
+				System.out.println("Erro ao executar a query de exclusão pessoa");
+				System.out.println("Erro: " + e.getMessage());
+			} finally {
+				Banco.closeStatement(stmt);
+				Banco.closeConnection(conn);
+			}
+			return resultado;
+		}
 }
 
