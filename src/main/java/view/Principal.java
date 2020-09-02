@@ -29,11 +29,7 @@ public class Principal {
 		
 		/*PessoaDAO.excluir(2); */
 		
-				
-		PessoaDAO.alterar(Pessoa);
 		
-		
-	
 	}
 
 }
