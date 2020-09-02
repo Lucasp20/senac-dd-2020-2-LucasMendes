@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import model.vo.Pessoa;
 
 public class PessoaDAO {
+	
+	
 		
 		public static int inserir(Pessoa pessoa) {
 			Connection conn = Banco.getConnection();
@@ -56,5 +60,32 @@ public class PessoaDAO {
 					
 			return resultado;
 		}
+		
+		public static int alterar(Pessoa pessoa) {
+			Connection conn = Banco.getConnection();
+			Statement stmt = Banco.getStatement(conn);
+			int resultado = 0;
+				
+			String query = "UPDATE pessoa SET nome = '" + pessoa.getNome()
+							+ "', DataNascimento = '" + pessoa.getDataNascimento()
+							+ "', sexo = '" + pessoa.getSexo()
+							+ "', cpf = '" + pessoa.getCpf()
+							+ "', reacao = '" + pessoa.getReacao()
+							+ "', dataVacinacao = '" + pessoa.getDataVacinacao()
+							+ "', voluntario = '" + pessoa.isVoluntario()
+							+ "' WHERE idusuario = " + pessoa.getIdPessoa();
+			
+			try {
+			resultado = stmt.executeUpdate(query);
+			} catch (SQLException e) {
+				System.out.println("Erro ao executar a query de atualização da pessoa");
+				System.out.println("Erro: " + e.getMessage());
+			} finally {
+				Banco.closeStatement(stmt);
+				Banco.closeConnection(conn);
+			}
+			return resultado;
+		}
+			
 }
 
