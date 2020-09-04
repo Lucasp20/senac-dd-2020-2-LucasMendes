@@ -2,15 +2,18 @@ package model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.vo.Pessoa;
 
+
 public class PessoaDAO {
-	
 	
 		
 		public static int inserir(Pessoa pessoa) {
@@ -87,5 +90,49 @@ public class PessoaDAO {
 			return resultado;
 		}
 			
+		public Pessoa pesquisarPorId(int id) {
+			Connection conn = Banco.getConnection();
+			Statement stmt = Banco.getStatement(conn);
+			Pessoa pesquisaId = null;
+			
+			return pesquisaId;
+		}
+		
+		public static List<Pessoa> pesquisarTodos() {
+			Connection conn = Banco.getConnection();
+			Statement stmt = Banco.getStatement(conn);
+			ResultSet resultado = null;
+			ArrayList<Pessoa> pesquisaTodos = new ArrayList<Pessoa>();
+			
+			String query = "SELECT idpessoa, nome, data nascimento, sexo, cpf, reacao, data vacinacao, voluntario FROM pessoa ";
+			
+			
+			try {
+				resultado = stmt.executeQuery(query);
+				while (resultado.next()) {
+					Pessoa pessoa = new Pessoa();
+					pessoa.setIdPessoa(Integer.parseInt(resultado.getString(1)));
+					pessoa.setNome(resultado.getNString(2));
+					pessoa.setDataNascimento(LocalDate.parse(resultado.getString(3)));
+					pessoa.setSexo(resultado.getString(4));
+					pessoa.setCpf(resultado.getString(5));
+					pessoa.setReacao(Integer.parseInt(resultado.getString(6)));
+					pessoa.setDataVacinacao(LocalDate.parse(resultado.getString(7)));
+					pessoa.setVoluntario(Boolean.parseBoolean(resultado.getString(8)));
+					pesquisaTodos.add(pessoa);
+				}
+			} catch (SQLException e) {
+				System.out.println("\n Erro ao executar a query de consulta de todos as Pessoas.");
+				System.out.println("Erro: " + e.getMessage());
+			} finally {
+				Banco.closeResultSet(resultado);
+				Banco.closeStatement(stmt);
+				Banco.closeConnection(conn);
+			}
+			
+			return pesquisaTodos;
+		}
+		
+		
 }
 
