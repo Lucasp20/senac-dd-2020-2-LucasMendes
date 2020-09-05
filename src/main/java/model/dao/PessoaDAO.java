@@ -104,7 +104,7 @@ public class PessoaDAO {
 			ResultSet resultado = null;
 			ArrayList<Pessoa> pesquisaTodos = new ArrayList<Pessoa>();
 			
-			String query = "SELECT idpessoa, nome, data nascimento, sexo, cpf, reacao, data vacinacao, voluntario FROM pessoa ";
+			String query = "SELECT idpessoa, nome, DATA_NASCIMENTO, sexo, cpf, reacao, data_vacinacao, voluntario FROM pessoa ";
 			
 			
 			try {
@@ -131,8 +131,8 @@ public class PessoaDAO {
 			}
 			
 			return pesquisaTodos;
+			
 		}
-		
 		
 }
 

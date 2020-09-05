@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 
 public class Pessoa {
 	
+	DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	
 	private int idPessoa;
 	private String nome;
 	private LocalDate dataNascimento;
@@ -32,7 +34,7 @@ public class Pessoa {
 		super();
 		
 	}
-
+	
 	public int getIdPessoa() {
 		return idPessoa;
 	}
@@ -97,5 +99,16 @@ public class Pessoa {
 		this.voluntario = voluntario;
 	}
 	
+	@Override
+	public String toString() {
+		return "\n========= Pessoa ========= " + 
+				"\nNome: " + this.getNome()+
+				"\nDataNascimento: " + this.getDataNascimento().format(dataFormatter) +
+				"\nSexo:  " + this.getSexo() + 
+				"\nCpf: " + this.getCpf() +
+				"\nReacao: " + this.getReacao() +
+				"\nDataVacinacao: " + this.getDataVacinacao().format(dataFormatter) + 
+				"\nVoluntario: " + this.isVoluntario();
+	}
 	
 }

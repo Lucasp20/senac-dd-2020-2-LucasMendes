@@ -30,6 +30,9 @@ public class Principal {
 		/*PessoaDAO.excluir(2); */
 		
 		PessoaDAO.pesquisarTodos();
+		
+		System.out.println(PessoaDAO.pesquisarTodos());
+		
 	}
 
 }
