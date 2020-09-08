@@ -90,10 +90,17 @@ public class PessoaDAO {
 			return resultado;
 		}
 			
-		public Pessoa pesquisarPorId(int id) {
-			Connection conn = Banco.getConnection();
-			Statement stmt = Banco.getStatement(conn);
+		public static Pessoa pesquisarPorId(int id) {
+			String sql = "SELECT * FROM PESSOA WHERE IDPESSOA=? ";
 			Pessoa pesquisaId = null;
+			
+			try (Connection conexao = Banco.getConnection();
+					PreparedStatement consulta = Banco.getPreparedStatement(conexao, sql);) {
+					consulta.setInt(1,id);
+					ResultSet conjuntoResultante = consulta.executeQuery();
+			} catch (SQLException e) {
+				System.out.println("Erro ao consultar pessoa por id (id: " + id + ") \nCausa: " + e.getMessage());
+			}
 			
 			return pesquisaId;
 		}

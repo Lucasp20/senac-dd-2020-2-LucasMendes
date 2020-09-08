@@ -27,11 +27,13 @@ public class Principal {
 		
 		PessoaDAO.inserir(pessoa); 
 		
-		/*PessoaDAO.excluir(2); */
+		PessoaDAO.excluir(2); 
 		
-		PessoaDAO.pesquisarTodos();
+		PessoaDAO.pesquisarTodos(); 
 		
-		System.out.println(PessoaDAO.pesquisarTodos());
+		System.out.println(PessoaDAO.pesquisarTodos()); 
+		
+		System.out.println(PessoaDAO.pesquisarPorId(1)); */
 		
 	}
 
