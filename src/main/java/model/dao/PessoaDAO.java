@@ -16,7 +16,7 @@ import model.vo.Pessoa;
 public class PessoaDAO {
 	
 		
-		public static int inserir(Pessoa pessoa) {
+		public int inserir(Pessoa pessoa) {
 			Connection conn = Banco.getConnection();
 			Statement stmt = Banco.getStatement(conn);
 			int resultado = 0;
