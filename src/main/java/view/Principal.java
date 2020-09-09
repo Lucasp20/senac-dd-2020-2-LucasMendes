@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import model.dao.Banco;
+import model.dao.InstituicaoDAO;
 import model.dao.PessoaDAO;
+import model.vo.Instituicao;
 import model.vo.Pessoa;
 
 public class Principal {
@@ -35,6 +37,16 @@ public class Principal {
 		
 		System.out.println(PessoaDAO.pesquisarPorId(1)); */
 		
+		
+		
+		Instituicao instituicao = new Instituicao();
+		instituicao.setNome("Baia Sul");
+		instituicao.setRua("Mauro Ramos");
+		instituicao.setBairro("Centro");
+		instituicao.setCidade("Floripa");
+		instituicao.setEstado("SC");
+		instituicao.setCnpj("087666595");
+	
+		InstituicaoDAO.inserir(instituicao);
 	}
-
 }
