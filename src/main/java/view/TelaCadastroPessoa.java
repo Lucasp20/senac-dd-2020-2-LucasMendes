@@ -66,17 +66,17 @@ public class TelaCadastroPessoa extends JFrame {
 		contentPane.add(lblSexo);
 		
 		textNome = new JTextField();
-		textNome.setBounds(27, 47, 193, 20);
+		textNome.setBounds(27, 47, 217, 20);
 		contentPane.add(textNome);
 		textNome.setColumns(10);
 		
 		textCPF = new JTextField();
-		textCPF.setBounds(27, 92, 193, 20);
+		textCPF.setBounds(27, 92, 217, 20);
 		contentPane.add(textCPF);
 		textCPF.setColumns(10);
 		
 		textSexo = new JTextField();
-		textSexo.setBounds(27, 138, 193, 20);
+		textSexo.setBounds(27, 138, 217, 20);
 		contentPane.add(textSexo);
 		textSexo.setColumns(10);
 		
@@ -99,7 +99,7 @@ public class TelaCadastroPessoa extends JFrame {
 		
 		textDataNascimento = new JTextField();
 		textDataNascimento.setColumns(10);
-		textDataNascimento.setBounds(27, 183, 193, 20);
+		textDataNascimento.setBounds(27, 183, 217, 20);
 		contentPane.add(textDataNascimento);
 		
 		textInstituicao = new JTextField();
@@ -111,5 +111,13 @@ public class TelaCadastroPessoa extends JFrame {
 		JLabel lblInstituicao = new JLabel("Institui\u00E7\u00E3o");
 		lblInstituicao.setBounds(27, 290, 74, 14);
 		contentPane.add(lblInstituicao);
+		
+		JCheckBox chkPublicoGeral = new JCheckBox("P\u00FAblico em Geral");
+		chkPublicoGeral.setBounds(114, 210, 130, 23);
+		contentPane.add(chkPublicoGeral);
+		
+		JCheckBox chkVoluntario = new JCheckBox("Volunt\u00E1rio");
+		chkVoluntario.setBounds(27, 210, 97, 23);
+		contentPane.add(chkVoluntario);
 	}
 }
