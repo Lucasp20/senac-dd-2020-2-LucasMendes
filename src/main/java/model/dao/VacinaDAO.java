@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import model.vo.Instituicao;
+import model.vo.Pesquisador;
 import model.vo.Vacina;
 
 public class VacinaDAO {
@@ -22,11 +23,11 @@ public class VacinaDAO {
 
 		try {
 			
-			Instituicao instituicaoDoPesquisador = verificarInstituicaoDoPesquisador(vacina);
-			
+			Pesquisador nomePesquisador = verificarNomeDoPesquisador(vacina);
+						
 			query.setString(1, vacina.getPaisOrigem());
 			query.setInt(2, vacina.getEstagioPesquisa());
-			query.setInt(3, instituicaoDoPesquisador.getIdInstituicao());
+			query.setInt(3, nomePesquisador.getIdPessoa());
 			
 			Date dataInicioPesquisaConvertidaParaSQL = java.sql.Date.valueOf(vacina.getDataInicioPesquisa());
 			query.setDate(5, dataInicioPesquisaConvertidaParaSQL);
@@ -71,10 +72,33 @@ public class VacinaDAO {
 		return excluiu;
 	}
 
-	public static int alterar (Vacina vacina) {
-
-	return null;
-	}
+	public boolean alterar (Vacina vacina) {
+			String sql = "UPDATE VACINA " 
+							+ "SET PAIS_DE_ORIGEM=?, ESTAGIO_PESQUISA=?, DATA_INICIO_PESAQUISA=?, IDPESQUISADOR=?"
+							+ "WHERE idVacina=? ";
+			
+			boolean alterou = false;
+			
+			Pesquisador nomePesquisador = verificarNomeDoPesquisador(vacina);
+			
+			try (Connection conexao = Banco.getConnection();
+				PreparedStatement query = Banco.getPreparedStatement(conexao, sql);) {
+				query.setString(1, vacina.getPaisOrigem());
+				query.setInt(2, vacina.getEstagioPesquisa());
+				query.setInt(3, nomePesquisador.getIdPessoa());
+				query.setInt(5,  vacina.getIdVacina());
+				
+				Date dataInicioPesquisaConvertidaParaSQL = java.sql.Date.valueOf(vacina.getDataInicioPesquisa());
+				query.setDate(5, dataInicioPesquisaConvertidaParaSQL);
+				
+				int codigoRetorno = query.executeUpdate();
+				alterou = (codigoRetorno == Banco.CODIGO_RETORNO_SUCESSO);
+			} catch (SQLException e) {
+				System.out.println("Erro ao alterar vacina. \nCausa: " + e.getMessage());
+			}
+					
+			return alterou;
+		}
 	
 	public static Vacina pesquisarPorId(int id) {
 
@@ -86,9 +110,9 @@ public class VacinaDAO {
 	return null;
 	}
 	
-	
-	private Instituicao verificarInstituicaoDoPesquisador(Vacina vacina) {
-		// TODO Auto-generated method stub
+	private Pesquisador verificarNomeDoPesquisador(Vacina vacina) {
+		
 		return null;
 	}
+	
 }
