@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.vo.Instituicao;
@@ -16,7 +17,7 @@ public class VacinaDAO {
 	public Vacina inserir(Vacina vacina) {
 		Connection conexao = Banco.getConnection();
 		
-		String sql = " INSERT INTO VACINA (PAIS_DE_ORIGEM, ESTAGIO_PESQUISA, DATA_INICIO_PESAQUISA, IDPESQUISADOR) " 
+		String sql = " INSERT INTO VACINA (PAIS_DE_ORIGEM, ESTAGIO_PESQUISA, DATA_INICIO_PESQUISA, IDPESQUISADOR) " 
 					+ " VALUES (?,?,?,?) ";
 		
 		PreparedStatement query = Banco.getPreparedStatementWithGeneratedKeys(conexao, sql);
@@ -41,7 +42,7 @@ public class VacinaDAO {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Erro ao inserir pessoa.\nCausa: " + e.getMessage());
+			System.out.println("Erro ao inserir vacina.\nCausa: " + e.getMessage());
 		}finally {
 			Banco.closeStatement(query);
 			Banco.closeConnection(conexao);
@@ -101,18 +102,73 @@ public class VacinaDAO {
 		}
 	
 	public static Vacina pesquisarPorId(int id) {
-
-	return null;
-	}
-	
-	public static List<Vacina> pesquisarTodos() {
-
-	return null;
-	}
-	
-	private Pesquisador verificarNomeDoPesquisador(Vacina vacina) {
+		String sql = " SELECT * FROM VACINA WHERE id=? ";
+		Vacina vacinaBuscada = null;
 		
+		try (Connection conexao = Banco.getConnection();
+			PreparedStatement consulta = Banco.getPreparedStatement(conexao, sql);) {
+			consulta.setInt(1, id);
+			ResultSet conjuntoResultante = consulta.executeQuery();
+			
+			if(conjuntoResultante.next()) {
+				vacinaBuscada = construirVacinaDoResultSet(conjuntoResultante);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar vacina por Id (id: " + id + ") .\nCausa: " + e.getMessage());
+		}
+		
+		return vacinaBuscada;
+	}
+	
+
+	public static List<Vacina> pesquisarTodos() {
+		Connection conexao = Banco.getConnection();
+		String sql = "SQL * FROM VACINA ";
+
+		PreparedStatement consulta = Banco.getPreparedStatement(conexao,  sql);
+		List<Vacina> vacinasBuscadas = new ArrayList<Vacina>();
+	
+		try { 
+			ResultSet conjuntoResultante = consulta.executeQuery();
+			while(conjuntoResultante.next()) {
+			Vacina vacinaBuscada = construirVacinaDoResultSet(conjuntoResultante);					
+			vacinasBuscadas.add(vacinaBuscada);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar todos os vacina .\nCausa: " + e.getMessage());
+		}finally {			
+			Banco.closeStatement(consulta);			
+			Banco.closeConnection(conexao);
+		}	
+			return vacinasBuscadas;
+	}
+	
+
+	private static Vacina construirVacinaDoResultSet(ResultSet conjuntoResultante) throws SQLException {
+		Vacina vacinaBuscada = new Vacina();
+		vacinaBuscada.setIdVacina(conjuntoResultante.getInt("id"));
+		vacinaBuscada.setPaisOrigem(conjuntoResultante.getString("nome"));
+		vacinaBuscada.setEstagioPesquisa(conjuntoResultante.getInt("estagio_pesquisa"));
+		
+		PesquisadorDAO pesquisadorDAO = new PesquisadorDAO();
+		int idPesquisador = conjuntoResultante.getInt("IDPESQUISADOR");
+		Pesquisador nomePesquisador = pesquisadorDAO.pesquisarPorId(idPesquisador);
+		vacinaBuscada.setPesquisador(nomePesquisador);
+		
+		Date dataSQL = conjuntoResultante.getDate("data_inicio_pesquisa");
+		vacinaBuscada.setDataInicioPesquisa(dataSQL.toLocalDate());
+		
+		return vacinaBuscada;
+	}
+	
+private Pesquisador verificarNomeDoPesquisador(Vacina vacina) {
+		Pesquisador nomePesquisador = vacina.getPesquisador();
+		if(nomePesquisador != null) {
+			if(nomePesquisador.getIdPessoa() == 0) {
+				PesquisadorDAO pesqDAO = new PesquisadorDAO();
+				nomePesquisador = pesqDAO.inserir(vacina.getPesquisador());
+			}
+		}
 		return null;
 	}
-	
 }

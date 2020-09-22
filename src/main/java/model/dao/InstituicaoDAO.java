@@ -98,7 +98,7 @@ public class InstituicaoDAO {
 				insituicaoBuscada = construirInstituicaoDoResultSet(conjuntoResultante);
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao consultar institui��o por Id (id: " + id + ") .\nCausa: " + e.getMessage());
+			System.out.println("Erro ao consultar instituicao por Id (id: " + id + ") .\nCausa: " + e.getMessage());
 		}
 		
 		return insituicaoBuscada;
