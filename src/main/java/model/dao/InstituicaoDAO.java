@@ -51,7 +51,7 @@ public class InstituicaoDAO {
 			int codigoRetorno = query.executeUpdate();
 		
 		}catch (SQLException e) {
-			System.out.println("Erro ao excluir Instituição: " + idInstituicao + ") \nCausa: " + e.getMessage());
+			System.out.println("Erro ao excluir Instituiï¿½ï¿½o: " + idInstituicao + ") \nCausa: " + e.getMessage());
 		}finally {
 			Banco.closeStatement(query);
 			Banco.closeConnection(conexao);
@@ -79,7 +79,7 @@ public class InstituicaoDAO {
 			int codigoRetorno = query.executeUpdate();
 			alterou = (codigoRetorno == Banco.CODIGO_RETORNO_SUCESSO);
 		} catch (SQLException e) {
-			System.out.println("Erro ao alterar instituição.\nCausa: " + e.getMessage());
+			System.out.println("Erro ao alterar instituiï¿½ï¿½o.\nCausa: " + e.getMessage());
 		}
 				
 		return alterou;
@@ -98,7 +98,7 @@ public class InstituicaoDAO {
 				insituicaoBuscada = construirInstituicaoDoResultSet(conjuntoResultante);
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao consultar instituição por Id (id: " + id + ") .\nCausa: " + e.getMessage());
+			System.out.println("Erro ao consultar instituiï¿½ï¿½o por Id (id: " + id + ") .\nCausa: " + e.getMessage());
 		}
 		
 		return insituicaoBuscada;
@@ -126,9 +126,6 @@ public class InstituicaoDAO {
 			
 			return instituicaoBuscadas;
 	}
-
-	
-		
 		
 		private Instituicao construirInstituicaoDoResultSet(ResultSet conjuntoResultante) throws SQLException {
 			Instituicao insituicaoBuscada = new Instituicao();
@@ -138,7 +135,6 @@ public class InstituicaoDAO {
 			insituicaoBuscada.setBairro(conjuntoResultante.getString("bairro"));
 			insituicaoBuscada.setEstado(conjuntoResultante.getString("Estado"));
 			insituicaoBuscada.setCnpj(conjuntoResultante.getString("cnpj"));
-			
 			
 			return insituicaoBuscada;
 		}
