@@ -47,7 +47,7 @@ public class InstituicaoDAO {
 		int resultado = 0;
 		
 		try {
-			
+			query.setInt(1, idInstituicao);
 			int codigoRetorno = query.executeUpdate();
 		
 		}catch (SQLException e) {
