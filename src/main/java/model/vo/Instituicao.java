@@ -2,6 +2,7 @@ package model.vo;
 
 public class Instituicao {
 	
+	private int idInstituicao;
 	private String nome;
 	private String rua;
 	private String bairro;
@@ -9,9 +10,10 @@ public class Instituicao {
 	private String estado;
 	private String cnpj;
 
-	public Instituicao(String nome, String rua, String bairro, String cidade, String estado,
+	public Instituicao(int idInstituicao, String nome, String rua, String bairro, String cidade, String estado,
 			String cnpj) {
 		super();
+		this.idInstituicao = idInstituicao;
 		this.nome = nome;
 		this.rua = rua;
 		this.bairro = bairro;
@@ -23,6 +25,14 @@ public class Instituicao {
 	public Instituicao() {
 		super();
 		
+	}
+
+	public int getIdInstituicao() {
+		return idInstituicao;
+	}
+
+	public void setIdInstituicao(int idInstituicao) {
+		this.idInstituicao = idInstituicao;
 	}
 
 	public String getNome() {
@@ -72,5 +82,6 @@ public class Instituicao {
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
+
 	
 }
