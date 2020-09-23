@@ -15,7 +15,7 @@ public class TelaCadastroVacina extends JFrame {
 	private JPanel contentPane;
 	private JTextField textPesquisador;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textDataInicioPesquisa;
 
 	/**
 	 * Launch the application.
@@ -67,17 +67,17 @@ public class TelaCadastroVacina extends JFrame {
 		lblEstagioPesquisa.setBounds(24, 169, 126, 14);
 		contentPane.add(lblEstagioPesquisa);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(24, 194, 190, 20);
-		contentPane.add(comboBox);
+		JComboBox comboBoxEstagioPesquisa = new JComboBox();
+		comboBoxEstagioPesquisa.setBounds(24, 194, 190, 20);
+		contentPane.add(comboBoxEstagioPesquisa);
 		
 		JLabel lblDataInicioPesquisa = new JLabel("Data de In\u00EDcio da Pesquisa");
 		lblDataInicioPesquisa.setBounds(24, 122, 163, 14);
 		contentPane.add(lblDataInicioPesquisa);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(24, 138, 190, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		textDataInicioPesquisa = new JTextField();
+		textDataInicioPesquisa.setBounds(24, 138, 190, 20);
+		contentPane.add(textDataInicioPesquisa);
+		textDataInicioPesquisa.setColumns(10);
 	}
 }

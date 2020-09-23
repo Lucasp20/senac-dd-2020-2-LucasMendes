@@ -6,6 +6,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+
+import com.google.protobuf.TextFormat.ParseException;
+
+import model.vo.Pessoa;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
@@ -15,20 +21,24 @@ import javax.swing.JTextPane;
 import javax.swing.JEditorPane;
 import javax.swing.JFormattedTextField;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JPasswordField;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class TelaCadastroPessoa extends JFrame {
 
+	private static final Component JFormattedTextFieldCpf = null;
 	private JPanel contentPane;
 	private JTextField textNome;
-	private JTextField textCPF;
-	private JTextField textSexo;
 	private JTextField textInstituicao;
 	private JTextField textDataNascimento;
 	private JCheckBox chkPesquisador;
+	private JComboBox comboBoxSexo;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -43,81 +53,84 @@ public class TelaCadastroPessoa extends JFrame {
 		});
 	}
 
-	public TelaCadastroPessoa() {
+	public TelaCadastroPessoa() throws java.text.ParseException {
 		setTitle("Cadastro de Pessoas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 442, 391);
+		setBounds(100, 100, 442, 434);
 		contentPane = new JPanel();
 		contentPane.setToolTipText("");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+
 		JLabel lblNome = new JLabel("Nome");
-		lblNome.setBounds(27, 30, 46, 14);
+		lblNome.setBounds(99, 22, 46, 14);
 		contentPane.add(lblNome);
-		
+
 		JLabel lblCPF = new JLabel("CPF");
-		lblCPF.setBounds(27, 78, 46, 14);
+		lblCPF.setBounds(99, 70, 46, 14);
 		contentPane.add(lblCPF);
-		
-		JLabel lblSexo = new JLabel("Sexo:");
-		lblSexo.setBounds(28, 123, 46, 14);
+
+		JLabel lblSexo = new JLabel("Sexo");
+		lblSexo.setBounds(99, 161, 46, 14);
 		contentPane.add(lblSexo);
 		
+		JComboBox comboBoxSexo = new JComboBox();
+		comboBoxSexo.setBounds(99, 175, 217, 20);
+		contentPane.add(comboBoxSexo);
+		
 		textNome = new JTextField();
-		textNome.setBounds(27, 47, 217, 20);
+		textNome.setBounds(99, 39, 217, 20);
 		contentPane.add(textNome);
 		textNome.setColumns(10);
-		
-		textCPF = new JTextField();
-		textCPF.setBounds(27, 92, 217, 20);
-		contentPane.add(textCPF);
-		textCPF.setColumns(10);
-		
-		textSexo = new JTextField();
-		textSexo.setBounds(27, 138, 217, 20);
-		contentPane.add(textSexo);
-		textSexo.setColumns(10);
-		
+
 		chkPesquisador = new JCheckBox("Pesquisador");
 		chkPesquisador.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(chkPesquisador.isSelected()) {
-					textInstituicao.setEnabled(true);
-				}else {
-					textInstituicao.setEnabled(false);
-				}
+		public void actionPerformed(ActionEvent arg0) {
+			if(chkPesquisador.isSelected()) {
+				textInstituicao.setEnabled(true);
+			}else {
+				textInstituicao.setEnabled(false);
 			}
-		});
-		chkPesquisador.setBounds(27, 260, 97, 23);
-		contentPane.add(chkPesquisador);
-		
-		JLabel lblDataNascimento = new JLabel("Data Nascimento:");
-		lblDataNascimento.setBounds(28, 169, 111, 14);
-		contentPane.add(lblDataNascimento);
-		
-		textDataNascimento = new JTextField();
-		textDataNascimento.setColumns(10);
-		textDataNascimento.setBounds(27, 183, 217, 20);
-		contentPane.add(textDataNascimento);
-		
-		textInstituicao = new JTextField();
-		textInstituicao.setEnabled(false);
-		textInstituicao.setBounds(27, 305, 217, 20);
-		contentPane.add(textInstituicao);
-		textInstituicao.setColumns(10);
-		
-		JLabel lblInstituicao = new JLabel("Institui\u00E7\u00E3o");
-		lblInstituicao.setBounds(27, 290, 74, 14);
-		contentPane.add(lblInstituicao);
-		
-		JCheckBox chkPublicoGeral = new JCheckBox("P\u00FAblico em Geral");
-		chkPublicoGeral.setBounds(114, 210, 130, 23);
-		contentPane.add(chkPublicoGeral);
-		
-		JCheckBox chkVoluntario = new JCheckBox("Volunt\u00E1rio");
-		chkVoluntario.setBounds(27, 210, 97, 23);
-		contentPane.add(chkVoluntario);
+		}
+});
+	chkPesquisador.setBounds(99, 252, 97, 23);
+	contentPane.add(chkPesquisador);
+
+	JLabel lblDataNascimento = new JLabel("Data Nascimento");
+	lblDataNascimento.setBounds(99, 115, 111, 14);
+	contentPane.add(lblDataNascimento);
+
+	textDataNascimento = new JTextField();
+	textDataNascimento.setColumns(10);
+	textDataNascimento.setBounds(99, 130, 217, 20);
+	contentPane.add(textDataNascimento);
+
+	textInstituicao = new JTextField();
+	textInstituicao.setEnabled(false);
+	textInstituicao.setBounds(99, 297, 217, 20);
+	contentPane.add(textInstituicao);
+	textInstituicao.setColumns(10);
+
+	JLabel lblInstituicao = new JLabel("Institui\u00E7\u00E3o");
+	lblInstituicao.setBounds(99, 282, 74, 14);
+	contentPane.add(lblInstituicao);
+
+	JCheckBox chkPublicoGeral = new JCheckBox("P\u00FAblico em Geral");
+	chkPublicoGeral.setBounds(186, 202, 130, 23);
+	contentPane.add(chkPublicoGeral);
+
+	JCheckBox chkVoluntario = new JCheckBox("Volunt\u00E1rio");
+	chkVoluntario.setBounds(99, 202, 97, 23);
+	contentPane.add(chkVoluntario);
+
+	JFormattedTextField formattedTextFieldCPF = new JFormattedTextField();
+	formattedTextFieldCPF.setBounds(99, 84, 217, 20);
+	contentPane.add(formattedTextFieldCPF);
 	}
+
+
 }
+	
+	
