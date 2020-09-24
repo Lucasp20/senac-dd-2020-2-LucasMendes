@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +43,7 @@ public class PessoaDAO {
 			return resultado;
 		}
 		
-		public static int excluir(int idPessoa) {
+		public  int excluir(int idPessoa) {
 			Connection conexao = Banco.getConnection();
 			
 			String sql = "DELETE FROM pessoa WHERE idPessoa = " + idPessoa;
@@ -64,30 +65,33 @@ public class PessoaDAO {
 			return resultado;
 		}
 		
-		public static int alterar(Pessoa pessoa) {
-			Connection conn = Banco.getConnection();
-			Statement stmt = Banco.getStatement(conn);
-			int resultado = 0;
+		public boolean alterar(Pessoa pessoa) {
+			String sql = " UPDATE PESSOA "
+					+ " SET NOME=? , DataNascimento=?, sexo=?, reacao=? , dataVacinacao=? , voluntario=?"
+					+ "	where IDUSUARIO=? ";
+					
+			boolean alterou = false;
+						
+			try (Connection conexao = Banco.getConnection();
+				PreparedStatement query = Banco.getPreparedStatement(conexao, sql);) {
+				query.setString(1, pessoa.getNome());
+				query.setString(2,pessoa.getSexo());
+				query.setInt(3,pessoa.getReacao());
+				query.setBoolean(4, pessoa.isVoluntario());
 				
-			String query = "UPDATE pessoa SET nome = '" + pessoa.getNome()
-							+ "', DataNascimento = '" + pessoa.getDataNascimento()
-							+ "', sexo = '" + pessoa.getSexo()
-							+ "', cpf = '" + pessoa.getCpf()
-							+ "', reacao = '" + pessoa.getReacao()
-							+ "', dataVacinacao = '" + pessoa.getDataVacinacao()
-							+ "', voluntario = '" + pessoa.isVoluntario()
-							+ "' WHERE idusuario = " + pessoa.getIdPessoa();
-			
-			try {
-			resultado = stmt.executeUpdate(query);
+				Date dataNascimentoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataNascimento());
+				query.setDate(5, dataNascimentoConvertidaParaSQL);
+				
+				Date dataVacinacaoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataVacinacao());
+				query.setDate(6, dataVacinacaoConvertidaParaSQL);
+				
+				int codigoRetorno = query.executeUpdate();
+				alterou = (codigoRetorno == Banco.CODIGO_RETORNO_SUCESSO);
 			} catch (SQLException e) {
-				System.out.println("Erro ao executar a query de atualizaÁ„o da pessoa");
-				System.out.println("Erro: " + e.getMessage());
-			} finally {
-				Banco.closeStatement(stmt);
-				Banco.closeConnection(conn);
+				System.out.println("Erro ao alterar pessoa.\nCausa: " + e.getMessage());
 			}
-			return resultado;
+					
+			return alterou;
 		}
 			
 		public static Pessoa pesquisarPorId(int id) {
@@ -139,6 +143,37 @@ public class PessoaDAO {
 			
 			return pesquisaTodos;
 			
+		}
+
+		public boolean cpfJaCadastrado(Pessoa pessoa) {
+			boolean jaCadastrado = false;
+
+			Connection conexao = Banco.getConnection();
+			String sql = "SELECT count(id) FROM PESSOA WHERE CPF = ?";
+			
+			if(pessoa.getIdPessoa() > 0) {
+				sql += " AND ID <> ? ";
+			}
+			
+			PreparedStatement consulta = Banco.getPreparedStatement(conexao, sql);
+			
+			try {
+				consulta.setString(1, pessoa.getCpf());
+				
+				if(pessoa.getIdPessoa() > 0) {
+					consulta.setInt(2, pessoa.getIdPessoa());
+				}
+				
+				ResultSet conjuntoResultante = consulta.executeQuery();
+				jaCadastrado = conjuntoResultante.next();
+			} catch (SQLException e) {
+				System.out.println("Erro ao verificar se CPF (" + pessoa.getCpf() + ") j√° foi usado .\nCausa: " + e.getMessage());
+			}finally {
+				Banco.closeStatement(consulta);
+				Banco.closeConnection(conexao);
+			}
+			
+			return jaCadastrado;
 		}
 		
 }

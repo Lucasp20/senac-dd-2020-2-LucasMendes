@@ -10,6 +10,7 @@ import javax.swing.text.MaskFormatter;
 
 import com.google.protobuf.TextFormat.ParseException;
 
+import controller.PessoaController;
 import model.vo.Pessoa;
 
 import javax.swing.JLabel;
@@ -25,10 +26,15 @@ import java.awt.Component;
 
 import javax.swing.JPasswordField;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TelaCadastroPessoa extends JFrame {
 
@@ -39,6 +45,7 @@ public class TelaCadastroPessoa extends JFrame {
 	private JTextField textDataNascimento;
 	private JCheckBox chkPesquisador;
 	private JComboBox comboBoxSexo;
+	private JTextField textCpf;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -124,13 +131,36 @@ public class TelaCadastroPessoa extends JFrame {
 	JCheckBox chkVoluntario = new JCheckBox("Volunt\u00E1rio");
 	chkVoluntario.setBounds(99, 202, 97, 23);
 	contentPane.add(chkVoluntario);
-
-	JFormattedTextField formattedTextFieldCPF = new JFormattedTextField();
-	formattedTextFieldCPF.setBounds(99, 84, 217, 20);
-	contentPane.add(formattedTextFieldCPF);
+	
+	JButton btnCadastrar = new JButton("Cadastrar");
+	btnCadastrar.addMouseListener(new MouseAdapter() {
+		public void mouseClicked(MouseEvent arg0) {
+			Pessoa pessoa = new Pessoa();
+			pessoa.setNome(textNome.getText());
+			pessoa.setCpf(textCpf.getText());
+			
+			PessoaController controller = new PessoaController();
+			
+			String mensagem = controller.salvar(pessoa);
+			
+			JOptionPane.showInternalMessageDialog(contentPane, mensagem);
+		
+			
+		}
+	});
+	
+	btnCadastrar.setBounds(99, 347, 97, 23);
+	contentPane.add(btnCadastrar);
+	
+	JButton btnSair = new JButton("Sair");
+	btnSair.setBounds(227, 347, 89, 23);
+	contentPane.add(btnSair);
+	
+	textCpf = new JTextField();
+	textCpf.setBounds(99, 84, 217, 20);
+	contentPane.add(textCpf);
+	textCpf.setColumns(10);
 	}
-
-
 }
 	
 	
