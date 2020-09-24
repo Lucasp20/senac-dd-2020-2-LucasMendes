@@ -43,18 +43,18 @@ public class PessoaDAO {
 			return resultado;
 		}
 		
-		public  int excluir(int idPessoa) {
+		public boolean excluir(int idPessoa) {
 			Connection conexao = Banco.getConnection();
 			
 			String sql = "DELETE FROM pessoa WHERE idPessoa = " + idPessoa;
 
 			PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
-			int resultado = 0;
+			boolean excluiu = false;
 				
 			try {
 								
 				int codigoRetorno = query.executeUpdate();
-				
+				excluiu = (codigoRetorno == Banco.CODIGO_RETORNO_SUCESSO);
 			} catch (SQLException e) {
 				System.out.println("Erro ao excluir Pessoa (id: " + idPessoa + ") .\nCausa: " + e.getMessage());
 			}finally {
@@ -62,7 +62,7 @@ public class PessoaDAO {
 				Banco.closeConnection(conexao);
 			}
 					
-			return resultado;
+			return excluiu;
 		}
 		
 		public boolean alterar(Pessoa pessoa) {

@@ -44,7 +44,7 @@ public class TelaCadastroPessoa extends JFrame {
 	private JTextField textInstituicao;
 	private JTextField textDataNascimento;
 	private JCheckBox chkPesquisador;
-	private JComboBox comboBoxSexo;
+	private JComboBox cbSexo;
 	private JTextField textCpf;
 
 	public static void main(String[] args) {
@@ -82,10 +82,12 @@ public class TelaCadastroPessoa extends JFrame {
 		JLabel lblSexo = new JLabel("Sexo");
 		lblSexo.setBounds(99, 161, 46, 14);
 		contentPane.add(lblSexo);
+				
+		ArrayList<String> sexo = obterSexo();
+		cbSexo = new JComboBox(sexo.toArray());
+		cbSexo.setBounds(99, 175, 217, 20);
+		contentPane.add(cbSexo);
 		
-		JComboBox comboBoxSexo = new JComboBox();
-		comboBoxSexo.setBounds(99, 175, 217, 20);
-		contentPane.add(comboBoxSexo);
 		
 		textNome = new JTextField();
 		textNome.setBounds(99, 39, 217, 20);
@@ -131,7 +133,7 @@ public class TelaCadastroPessoa extends JFrame {
 	JCheckBox chkVoluntario = new JCheckBox("Volunt\u00E1rio");
 	chkVoluntario.setBounds(99, 202, 97, 23);
 	contentPane.add(chkVoluntario);
-	
+
 	JButton btnCadastrar = new JButton("Cadastrar");
 	btnCadastrar.addMouseListener(new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
@@ -144,7 +146,6 @@ public class TelaCadastroPessoa extends JFrame {
 			String mensagem = controller.salvar(pessoa);
 			
 			JOptionPane.showInternalMessageDialog(contentPane, mensagem);
-		
 			
 		}
 	});
@@ -160,6 +161,14 @@ public class TelaCadastroPessoa extends JFrame {
 	textCpf.setBounds(99, 84, 217, 20);
 	contentPane.add(textCpf);
 	textCpf.setColumns(10);
+	}
+
+	private ArrayList<String> obterSexo() {
+		ArrayList<String> sexo = new ArrayList<String>();
+		sexo.add("");
+		sexo.add("Masculino");
+		sexo.add("Feminino");
+		return sexo;
 	}
 }
 	

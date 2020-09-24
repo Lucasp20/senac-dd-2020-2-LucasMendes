@@ -14,7 +14,7 @@ public class PessoaBO {
 		
 		if(this.pessoaDAO.cpfJaCadastrado(pessoa)) {
 			throw new CpfJaCadastradoException("O CPF informado (" + pessoa.getCpf() 
-			+ ") já foi cadastrado para outro cliente");
+			+ ") já foi cadastrado para outra pessoa");
 		}
 		
 		this.pessoaDAO.inserir(pessoa);
@@ -32,4 +32,5 @@ public class PessoaBO {
 		
 		return this.pessoaDAO.alterar(pessoa);
 	}
+	
 }
