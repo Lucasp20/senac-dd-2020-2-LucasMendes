@@ -23,7 +23,7 @@ public class TelaCadastroVacina extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textPesquisador;
-	private JTextField textField;
+	private JTextField textFieldPaisOrigem;
 
 	/**
 	 * Launch the application.
@@ -63,10 +63,10 @@ public class TelaCadastroVacina extends JFrame {
 		lblPaisOrigem.setBounds(85, 65, 102, 14);
 		contentPane.add(lblPaisOrigem);
 		
-		textField = new JTextField();
-		textField.setBounds(85, 79, 217, 25);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldPaisOrigem = new JTextField();
+		textFieldPaisOrigem.setBounds(85, 79, 217, 25);
+		contentPane.add(textFieldPaisOrigem);
+		textFieldPaisOrigem.setColumns(10);
 		
 		JLabel lblEstagioPesquisa = new JLabel("Est\u00E1gio da Pesquisa");
 		lblEstagioPesquisa.setBounds(86, 173, 126, 14);
@@ -91,6 +91,15 @@ public class TelaCadastroVacina extends JFrame {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
+			
+			if(textPesquisador.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Campo pesquisador é obrigatório!", "Aviso" , JOptionPane.WARNING_MESSAGE);	
+			return;
+			}
+			if(textFieldPaisOrigem.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Campo país de Origem é obrigatório!", "Aviso" , JOptionPane.WARNING_MESSAGE);	
+			return;
+			}
 				JOptionPane.showMessageDialog(null, "Passou pelo botão cadastrar");
 			}
 		});
@@ -110,9 +119,9 @@ public class TelaCadastroVacina extends JFrame {
 	private ArrayList<String> obterEstagioPesquisa() {
 		ArrayList<String> EstagioPesquisa = new ArrayList<String>();
 		EstagioPesquisa.add("");
-		EstagioPesquisa.add("1-Inicial");
-		EstagioPesquisa.add("2-Testes");
-		EstagioPesquisa.add("3-Aplicação em massa");
+		EstagioPesquisa.add("1 - Inicial");
+		EstagioPesquisa.add("2 - Testes");
+		EstagioPesquisa.add("3 - Aplicação em massa");
 		return EstagioPesquisa;
 	}
 }
