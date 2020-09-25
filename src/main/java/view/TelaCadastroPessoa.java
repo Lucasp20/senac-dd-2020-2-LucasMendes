@@ -22,6 +22,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.JEditorPane;
 import javax.swing.JFormattedTextField;
 import java.awt.Color;
@@ -41,8 +42,6 @@ import java.awt.event.MouseEvent;
 
 public class TelaCadastroPessoa extends JFrame {
 
-	
-	private static final Component JFormattedTextFieldCpf = null;
 	private JPanel contentPane;
 	private JTextField textNome;
 	private JTextField textInstituicao;
@@ -64,7 +63,7 @@ public class TelaCadastroPessoa extends JFrame {
 		});
 	}
 
-	public TelaCadastroPessoa() throws java.text.ParseException {
+	public TelaCadastroPessoa() throws java.text.ParseException, ParseException {
 		setTitle("Cadastro de Pessoas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 442, 434);
@@ -74,15 +73,20 @@ public class TelaCadastroPessoa extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
 
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(99, 22, 46, 14);
 		contentPane.add(lblNome);
 
 		JLabel lblCPF = new JLabel("CPF");
-		lblCPF.setBounds(99, 70, 46, 14);
+		lblCPF.setBounds(99, 71, 33, 14);
 		contentPane.add(lblCPF);
-
+		
+		JFormattedTextField formattedTextFieldCPF = new JFormattedTextField(mascaraCpf);
+		formattedTextFieldCPF.setBounds(99, 84, 217, 25);
+		contentPane.add(formattedTextFieldCPF);	
+			
 		JLabel lblSexo = new JLabel("Sexo");
 		lblSexo.setBounds(99, 161, 46, 14);
 		contentPane.add(lblSexo);
@@ -127,6 +131,8 @@ public class TelaCadastroPessoa extends JFrame {
 	textInstituicao.setBounds(99, 297, 217, 25);
 	contentPane.add(textInstituicao);
 	textInstituicao.setColumns(10);
+	
+	
 
 	JLabel lblInstituicao = new JLabel("Institui\u00E7\u00E3o");
 	lblInstituicao.setBounds(99, 282, 74, 14);
@@ -151,11 +157,11 @@ public class TelaCadastroPessoa extends JFrame {
 			
 			String mensagem = controller.salvar(pessoa);
 			
-			JOptionPane.showInternalMessageDialog(contentPane, mensagem);
-			
+			JOptionPane.showInternalMessageDialog(contentPane, mensagem);	
 		}
+		
 	});
-	
+		
 	btnCadastrar.setBounds(99, 347, 97, 23);
 	contentPane.add(btnCadastrar);
 	
@@ -167,12 +173,8 @@ public class TelaCadastroPessoa extends JFrame {
 	});
 	btnSair.setBounds(227, 347, 89, 23);
 	contentPane.add(btnSair);
-	
-	JFormattedTextField formattedTextFieldCPF = new JFormattedTextField();
-	formattedTextFieldCPF.setBounds(99, 84, 217, 25);
-	contentPane.add(formattedTextFieldCPF);
 	}
-
+			
 	private ArrayList<String> obterSexo() {
 		ArrayList<String> sexo = new ArrayList<String>();
 		sexo.add("");
@@ -180,6 +182,7 @@ public class TelaCadastroPessoa extends JFrame {
 		sexo.add("Feminino");
 		return sexo;
 	}
+	
 }
 	
 	
