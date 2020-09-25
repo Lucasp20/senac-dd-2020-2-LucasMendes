@@ -12,35 +12,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.vo.Pessoa;
+import model.vo.Vacina;
 
 
 public class PessoaDAO {
 	
 		
-		public int inserir(Pessoa pessoa) {
-			Connection conn = Banco.getConnection();
-			Statement stmt = Banco.getStatement(conn);
-			int resultado = 0;
+		public Pessoa inserir(Pessoa pessoa) {
+			Connection conexao = Banco.getConnection();
 			
-					String query = "INSERT INTO `pessoa` VALUES (NULL, '"
-							+ pessoa.getNome() +"', '"
-							+ pessoa.getDataNascimento() +"', '"
-							+ pessoa.getSexo() +"', '"
-							+ pessoa.getCpf() + "', '"
-							+ pessoa.getReacao() + "', '"
-							+ pessoa.getDataVacinacao() + "', "
-							+ pessoa.isVoluntario() + " ) ";
+			String sql = "INSERT INTO PESSOA (NOME, DATA_NASCIMENTO, SEXO, CPF, REACAO, DATA_VACINACAO, VOLUNTARIO) "
+							+ "VALUES (?,?,?,?,?,?,?)";
+			
+			PreparedStatement query = Banco.getPreparedStatementWithGeneratedKeys(conexao, sql);
+			
 			try {
-				resultado = stmt.executeUpdate(query);
+				query.setString(1, pessoa.getNome());
+				query.setString(2, pessoa.getSexo());
+				query.setString(3, pessoa.getCpf());
+				query.setInt(4, pessoa.getReacao());
+				query.setBoolean(5, pessoa.isVoluntario());
+				
+				Date dataNascimentoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataNascimento());
+				query.setDate(6,dataNascimentoConvertidaParaSQL);
+				
+				Date dataVacinacaoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataVacinacao());
+				query.setDate(7, dataVacinacaoConvertidaParaSQL);
+				
+				int codigoRetorno = query.executeUpdate();
+				if(codigoRetorno == Banco.CODIGO_RETORNO_SUCESSO) {
+					ResultSet resultado = query.getGeneratedKeys();
+					int chaveGerada = resultado.getInt(1);
+					
+					pessoa.setIdPessoa(chaveGerada);
+				}
+				
 			} catch (SQLException e) {
-				System.out.println("Erro ao executar a query de cadastro.");
-				System.out.println("Erro: " + e.getMessage());
-			} finally {
-				Banco.closeStatement(stmt);
-				Banco.closeConnection(conn);
+				System.out.println("Erro ao inserir pessoa.\nCausa: " + e.getMessage());
+			}finally {
+				Banco.closeStatement(query);
+				Banco.closeConnection(conexao);
 			}
-		
-			return resultado;
+					
+			return pessoa;
 		}
 		
 		public boolean excluir(int idPessoa) {
@@ -67,7 +81,7 @@ public class PessoaDAO {
 		
 		public boolean alterar(Pessoa pessoa) {
 			String sql = " UPDATE PESSOA "
-					+ " SET NOME=? , DataNascimento=?, sexo=?, reacao=? , dataVacinacao=? , voluntario=?"
+					+ " SET NOME=? , DataNascimento=?, sexo=?, cpf=?, reacao=? , dataVacinacao=? , voluntario=?"
 					+ "	where IDUSUARIO=? ";
 					
 			boolean alterou = false;
@@ -76,14 +90,15 @@ public class PessoaDAO {
 				PreparedStatement query = Banco.getPreparedStatement(conexao, sql);) {
 				query.setString(1, pessoa.getNome());
 				query.setString(2,pessoa.getSexo());
-				query.setInt(3,pessoa.getReacao());
-				query.setBoolean(4, pessoa.isVoluntario());
+				query.setNString(3, pessoa.getCpf());
+				query.setInt(4,pessoa.getReacao());
+				query.setBoolean(5, pessoa.isVoluntario());
 				
 				Date dataNascimentoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataNascimento());
-				query.setDate(5, dataNascimentoConvertidaParaSQL);
+				query.setDate(6, dataNascimentoConvertidaParaSQL);
 				
 				Date dataVacinacaoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataVacinacao());
-				query.setDate(6, dataVacinacaoConvertidaParaSQL);
+				query.setDate(7, dataVacinacaoConvertidaParaSQL);
 				
 				int codigoRetorno = query.executeUpdate();
 				alterou = (codigoRetorno == Banco.CODIGO_RETORNO_SUCESSO);
@@ -94,56 +109,67 @@ public class PessoaDAO {
 			return alterou;
 		}
 			
-		public static Pessoa pesquisarPorId(int id) {
-			String sql = "SELECT * FROM PESSOA WHERE IDPESSOA=? ";
-			Pessoa pesquisaId = null;
+		public Pessoa pesquisarPorId(int id) {
+			String sql = " SELECT * FROM PESSOA WHERE ID=? ";
+			Pessoa pessoaBuscada = null;
 			
 			try (Connection conexao = Banco.getConnection();
-					PreparedStatement consulta = Banco.getPreparedStatement(conexao, sql);) {
-					consulta.setInt(1,id);
-					ResultSet conjuntoResultante = consulta.executeQuery();
-			} catch (SQLException e) {
-				System.out.println("Erro ao consultar pessoa por id (id: " + id + ") \nCausa: " + e.getMessage());
-			}
-			
-			return pesquisaId;
-		}
-		
-		public static List<Pessoa> pesquisarTodos() {
-			Connection conn = Banco.getConnection();
-			Statement stmt = Banco.getStatement(conn);
-			ResultSet resultado = null;
-			ArrayList<Pessoa> pesquisaTodos = new ArrayList<Pessoa>();
-			
-			String query = "SELECT idpessoa, nome, DATA_NASCIMENTO, sexo, cpf, reacao, data_vacinacao, voluntario FROM pessoa ";
-			
-			
-			try {
-				resultado = stmt.executeQuery(query);
-				while (resultado.next()) {
-					Pessoa pessoa = new Pessoa();
-					pessoa.setIdPessoa(Integer.parseInt(resultado.getString(1)));
-					pessoa.setNome(resultado.getNString(2));
-					pessoa.setDataNascimento(LocalDate.parse(resultado.getString(3)));
-					pessoa.setSexo(resultado.getString(4));
-					pessoa.setCpf(resultado.getString(5));
-					pessoa.setReacao(Integer.parseInt(resultado.getString(6)));
-					pessoa.setDataVacinacao(LocalDate.parse(resultado.getString(7)));
-					pessoa.setVoluntario(Boolean.parseBoolean(resultado.getString(8)));
-					pesquisaTodos.add(pessoa);
+				PreparedStatement consulta = Banco.getPreparedStatement(conexao, sql);) {
+				consulta.setInt(1, id);
+				ResultSet conjuntoResultante = consulta.executeQuery();
+				
+				if(conjuntoResultante.next()) {
+					pessoaBuscada = construirPessoaDoResultSet(conjuntoResultante);
 				}
 			} catch (SQLException e) {
-				System.out.println("\n Erro ao executar a query de consulta de todos as Pessoas.");
-				System.out.println("Erro: " + e.getMessage());
-			} finally {
-				Banco.closeResultSet(resultado);
-				Banco.closeStatement(stmt);
-				Banco.closeConnection(conn);
+				System.out.println("Erro ao consultar pessoa por Id (id: " + id + ") .\nCausa: " + e.getMessage());
 			}
 			
-			return pesquisaTodos;
-			
+			return pessoaBuscada;	
 		}
+		
+
+		public static List<Pessoa> pesquisarTodos() {
+			Connection conexao = Banco.getConnection();
+			String sql = "SQL * FROM PESSOA ";
+			
+			PreparedStatement consulta = Banco.getPreparedStatement(conexao,  sql);
+			List<Pessoa> pessoasBuscadas = new ArrayList<Pessoa>();
+			
+			
+			try { 
+				ResultSet conjuntoResultante = consulta.executeQuery();
+				while(conjuntoResultante.next()) {
+				Pessoa pessoaBuscada = construirPessoaDoResultSet(conjuntoResultante);					
+				pessoasBuscadas.add(pessoaBuscada);
+				}
+			} catch (SQLException e) {
+				System.out.println("Erro ao consultar todos as pessoas .\nCausa: " + e.getMessage());
+			}finally {			
+				Banco.closeStatement(consulta);			
+				Banco.closeConnection(conexao);
+			}	
+				return pessoasBuscadas;
+		}
+		
+		private static Pessoa construirPessoaDoResultSet(ResultSet conjuntoResultante) throws SQLException {
+			Pessoa pessoa = new Pessoa();
+			pessoa.setIdPessoa(conjuntoResultante.getInt("id"));
+			pessoa.setNome(conjuntoResultante.getString("nome"));
+			pessoa.setSexo(conjuntoResultante.getString("sexo"));
+			pessoa.setCpf(conjuntoResultante.getString("cpf"));
+			pessoa.setVoluntario(conjuntoResultante.getBoolean("isVoluntario"));
+			
+			Date dataNasci = conjuntoResultante.getDate("data_nascimento");
+			LocalDate dataNascimento = dataNasci.toLocalDate();
+			pessoa.setDataNascimento(dataNascimento);
+			
+			Date dataVacina = conjuntoResultante.getDate("data_nascimento");
+			LocalDate dataVacinacao = dataVacina.toLocalDate();
+			pessoa.setDataNascimento(dataNascimento);
+			
+			return pessoa;
+		}		
 
 		public boolean cpfJaCadastrado(Pessoa pessoa) {
 			boolean jaCadastrado = false;

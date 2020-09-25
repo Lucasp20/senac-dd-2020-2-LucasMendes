@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.DateTimePicker;
 import com.google.protobuf.TextFormat.ParseException;
 
 import controller.PessoaController;
@@ -38,14 +41,15 @@ import java.awt.event.MouseEvent;
 
 public class TelaCadastroPessoa extends JFrame {
 
+	
 	private static final Component JFormattedTextFieldCpf = null;
 	private JPanel contentPane;
 	private JTextField textNome;
 	private JTextField textInstituicao;
-	private JTextField textDataNascimento;
 	private JCheckBox chkPesquisador;
 	private JComboBox cbSexo;
-	private JTextField textCpf;
+	private JFrame frame;
+	private JFormattedTextField formattedTextFieldCPF;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -85,12 +89,11 @@ public class TelaCadastroPessoa extends JFrame {
 				
 		ArrayList<String> sexo = obterSexo();
 		cbSexo = new JComboBox(sexo.toArray());
-		cbSexo.setBounds(99, 175, 217, 20);
+		cbSexo.setBounds(99, 175, 217, 25);
 		contentPane.add(cbSexo);
 		
-		
 		textNome = new JTextField();
-		textNome.setBounds(99, 39, 217, 20);
+		textNome.setBounds(99, 39, 217, 25);
 		contentPane.add(textNome);
 		textNome.setColumns(10);
 
@@ -107,18 +110,21 @@ public class TelaCadastroPessoa extends JFrame {
 	chkPesquisador.setBounds(99, 252, 97, 23);
 	contentPane.add(chkPesquisador);
 
+	
 	JLabel lblDataNascimento = new JLabel("Data Nascimento");
 	lblDataNascimento.setBounds(99, 115, 111, 14);
 	contentPane.add(lblDataNascimento);
-
-	textDataNascimento = new JTextField();
-	textDataNascimento.setColumns(10);
-	textDataNascimento.setBounds(99, 130, 217, 20);
-	contentPane.add(textDataNascimento);
+	
+	DatePickerSettings dateSettings = new DatePickerSettings();
+	dateSettings.setAllowKeyboardEditing(false);
+	
+	final DatePicker DataNascimento = new DatePicker();
+	DataNascimento.setBounds(99, 130, 217, 25);
+	contentPane.add(DataNascimento);
 
 	textInstituicao = new JTextField();
 	textInstituicao.setEnabled(false);
-	textInstituicao.setBounds(99, 297, 217, 20);
+	textInstituicao.setBounds(99, 297, 217, 25);
 	contentPane.add(textInstituicao);
 	textInstituicao.setColumns(10);
 
@@ -127,20 +133,20 @@ public class TelaCadastroPessoa extends JFrame {
 	contentPane.add(lblInstituicao);
 
 	JCheckBox chkPublicoGeral = new JCheckBox("P\u00FAblico em Geral");
-	chkPublicoGeral.setBounds(186, 202, 130, 23);
+	chkPublicoGeral.setBounds(198, 207, 130, 23);
 	contentPane.add(chkPublicoGeral);
 
 	JCheckBox chkVoluntario = new JCheckBox("Volunt\u00E1rio");
-	chkVoluntario.setBounds(99, 202, 97, 23);
+	chkVoluntario.setBounds(99, 207, 97, 23);
 	contentPane.add(chkVoluntario);
 
+	
 	JButton btnCadastrar = new JButton("Cadastrar");
 	btnCadastrar.addMouseListener(new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
 			Pessoa pessoa = new Pessoa();
 			pessoa.setNome(textNome.getText());
-			pessoa.setCpf(textCpf.getText());
-			
+				
 			PessoaController controller = new PessoaController();
 			
 			String mensagem = controller.salvar(pessoa);
@@ -154,13 +160,17 @@ public class TelaCadastroPessoa extends JFrame {
 	contentPane.add(btnCadastrar);
 	
 	JButton btnSair = new JButton("Sair");
+	btnSair.addMouseListener(new MouseAdapter() {		
+		public void mouseClicked(MouseEvent arg0) {
+			JOptionPane.showMessageDialog(null, "Passou pelo botão sair");
+		}
+	});
 	btnSair.setBounds(227, 347, 89, 23);
 	contentPane.add(btnSair);
 	
-	textCpf = new JTextField();
-	textCpf.setBounds(99, 84, 217, 20);
-	contentPane.add(textCpf);
-	textCpf.setColumns(10);
+	JFormattedTextField formattedTextFieldCPF = new JFormattedTextField();
+	formattedTextFieldCPF.setBounds(99, 84, 217, 25);
+	contentPane.add(formattedTextFieldCPF);
 	}
 
 	private ArrayList<String> obterSexo() {

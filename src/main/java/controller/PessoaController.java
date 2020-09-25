@@ -47,17 +47,21 @@ public class PessoaController {
 		return mensagem;
 	}
 
-	private void validarCPF(String cpf) throws CpfInvalidoException{
+	public String validarCPF(String cpf) throws CpfInvalidoException{
+		String mensagem = "";
 		
 		if(cpf == null || cpf.isEmpty()
 				|| cpf.length() != 11) {
-			throw new CpfInvalidoException("CPF deve possuir tamanho 11");
+			throw new CpfInvalidoException(mensagem +"CPF deve possuir tamanho 11");
 		}
 		
 		try {
 			Integer.parseInt(cpf);
 		} catch (NumberFormatException ex) {
-			throw new CpfInvalidoException("CPF deve possuir tamanho 11 e somente números");
+			throw new CpfInvalidoException(mensagem + "CPF deve possuir tamanho 11 e somente números");
+		
 		}
+		return mensagem;
+		
 	}
 }
