@@ -48,7 +48,11 @@ public class TelaCadastroPessoa extends JFrame {
 	private JCheckBox chkPesquisador;
 	private JComboBox cbSexo;
 	private JFrame frame;
-	private JFormattedTextField formattedTextFieldCPF;
+	private JFormattedTextField txtCPF;
+	private JCheckBox chkVoluntario;
+	private JComboBox cbReacao;
+	private JCheckBox chkPublicoGeral;
+	private DatePicker DataNascimento;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -66,7 +70,7 @@ public class TelaCadastroPessoa extends JFrame {
 	public TelaCadastroPessoa() throws java.text.ParseException, ParseException {
 		setTitle("Cadastro de Pessoas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 442, 434);
+		setBounds(100, 100, 442, 450);
 		contentPane = new JPanel();
 		contentPane.setToolTipText("");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -74,7 +78,7 @@ public class TelaCadastroPessoa extends JFrame {
 		contentPane.setLayout(null);
 		
 		MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
-
+		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(99, 22, 46, 14);
 		contentPane.add(lblNome);
@@ -83,9 +87,9 @@ public class TelaCadastroPessoa extends JFrame {
 		lblCPF.setBounds(99, 71, 33, 14);
 		contentPane.add(lblCPF);
 		
-		JFormattedTextField formattedTextFieldCPF = new JFormattedTextField(mascaraCpf);
-		formattedTextFieldCPF.setBounds(99, 84, 217, 25);
-		contentPane.add(formattedTextFieldCPF);	
+		txtCPF = new JFormattedTextField(mascaraCpf);
+		txtCPF.setBounds(99, 84, 217, 25);
+		contentPane.add(txtCPF);	
 			
 		JLabel lblSexo = new JLabel("Sexo");
 		lblSexo.setBounds(99, 161, 46, 14);
@@ -95,6 +99,13 @@ public class TelaCadastroPessoa extends JFrame {
 		cbSexo = new JComboBox(sexo.toArray());
 		cbSexo.setBounds(99, 175, 217, 25);
 		contentPane.add(cbSexo);
+		
+		ArrayList<String> reacao = obterReacao();
+		cbReacao = new JComboBox(reacao.toArray());
+		cbReacao.setEnabled(false);
+		cbReacao.setEditable(true);
+		cbReacao.setBounds(99, 253, 217, 22);
+		contentPane.add(cbReacao);
 		
 		textNome = new JTextField();
 		textNome.setBounds(99, 39, 217, 25);
@@ -111,7 +122,7 @@ public class TelaCadastroPessoa extends JFrame {
 			}
 		}
 });
-	chkPesquisador.setBounds(99, 252, 97, 23);
+	chkPesquisador.setBounds(99, 282, 97, 23);
 	contentPane.add(chkPesquisador);
 
 	
@@ -122,27 +133,45 @@ public class TelaCadastroPessoa extends JFrame {
 	DatePickerSettings dateSettings = new DatePickerSettings();
 	dateSettings.setAllowKeyboardEditing(false);
 	
-	final DatePicker DataNascimento = new DatePicker();
+	DataNascimento = new DatePicker();
 	DataNascimento.setBounds(99, 130, 217, 25);
 	contentPane.add(DataNascimento);
 
 	textInstituicao = new JTextField();
 	textInstituicao.setEnabled(false);
-	textInstituicao.setBounds(99, 297, 217, 25);
+	textInstituicao.setBounds(99, 321, 217, 25);
 	contentPane.add(textInstituicao);
 	textInstituicao.setColumns(10);
 	
 	
 
 	JLabel lblInstituicao = new JLabel("Institui\u00E7\u00E3o");
-	lblInstituicao.setBounds(99, 282, 74, 14);
+	lblInstituicao.setBounds(99, 306, 74, 14);
 	contentPane.add(lblInstituicao);
 
-	JCheckBox chkPublicoGeral = new JCheckBox("P\u00FAblico em Geral");
-	chkPublicoGeral.setBounds(198, 207, 130, 23);
+	chkPublicoGeral = new JCheckBox("P\u00FAblico em Geral");
+	chkPublicoGeral.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if(chkPublicoGeral.isSelected()) {
+				cbReacao.setEnabled(true);
+			}else {
+				cbReacao.setEnabled(false);
+			}
+		}
+	});
+	chkPublicoGeral.setBounds(198, 207, 124, 23);
 	contentPane.add(chkPublicoGeral);
 
-	JCheckBox chkVoluntario = new JCheckBox("Volunt\u00E1rio");
+	chkVoluntario = new JCheckBox("Volunt\u00E1rio");
+	chkVoluntario.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(chkVoluntario.isSelected()) {
+				cbReacao.setEnabled(true);
+			}else {
+				cbReacao.setEnabled(false);
+			}
+		}
+	});
 	chkVoluntario.setBounds(99, 207, 97, 23);
 	contentPane.add(chkVoluntario);
 
@@ -153,16 +182,29 @@ public class TelaCadastroPessoa extends JFrame {
 			Pessoa pessoa = new Pessoa();
 			pessoa.setNome(textNome.getText());
 				
+			if(textNome.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Campo NOME é obrigatório", "Aviso" , JOptionPane.WARNING_MESSAGE);	
+			return;
+			}
+			if(txtCPF.getText().equals("   .   .   -  ")) {
+				JOptionPane.showMessageDialog(null, "Campo CPF é obrigatório", "Aviso" , JOptionPane.WARNING_MESSAGE);	
+			return;
+			}
+			if(DataNascimento.getText().length() > 0) {
+				JOptionPane.showMessageDialog(null, "Campo Data de Nascimento é obrigatório", "Aviso" , JOptionPane.WARNING_MESSAGE);	
+			return;			
+			} else {	
 			PessoaController controller = new PessoaController();
 			
 			String mensagem = controller.salvar(pessoa);
 			
-			JOptionPane.showInternalMessageDialog(contentPane, mensagem);	
+			JOptionPane.showMessageDialog(contentPane, mensagem);	
+			}	
 		}
 		
 	});
 		
-	btnCadastrar.setBounds(99, 347, 97, 23);
+	btnCadastrar.setBounds(99, 365, 97, 23);
 	contentPane.add(btnCadastrar);
 	
 	JButton btnSair = new JButton("Sair");
@@ -171,8 +213,12 @@ public class TelaCadastroPessoa extends JFrame {
 			JOptionPane.showMessageDialog(null, "Passou pelo botão sair");
 		}
 	});
-	btnSair.setBounds(227, 347, 89, 23);
+	btnSair.setBounds(224, 365, 89, 23);
 	contentPane.add(btnSair);
+		
+	JLabel lblReacao = new JLabel("Reação");
+	lblReacao.setBounds(99, 237, 46, 14);
+	contentPane.add(lblReacao);
 	}
 			
 	private ArrayList<String> obterSexo() {
@@ -183,6 +229,18 @@ public class TelaCadastroPessoa extends JFrame {
 		return sexo;
 	}
 	
+	private ArrayList<String> obterReacao() {
+		ArrayList<String> reacao = new ArrayList<String>();
+		reacao.add("");
+		reacao.add("1 - PÉSSIMO");
+		reacao.add("2 - RUIM");
+		reacao.add("3- REGULAR");
+		reacao.add("4 - BOM");
+		reacao.add("5 - ÓTIMO");
+
+		return reacao;
+	}
+
 }
 	
 	
