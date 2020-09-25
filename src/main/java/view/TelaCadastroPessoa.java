@@ -190,7 +190,7 @@ public class TelaCadastroPessoa extends JFrame {
 				JOptionPane.showMessageDialog(null, "Campo CPF é obrigatório", "Aviso" , JOptionPane.WARNING_MESSAGE);	
 			return;
 			}
-			if(DataNascimento.getText().length() > 0) {
+			if(DataNascimento.getDate().equals("  /  /    ")) {
 				JOptionPane.showMessageDialog(null, "Campo Data de Nascimento é obrigatório", "Aviso" , JOptionPane.WARNING_MESSAGE);	
 			return;			
 			} else {	
