@@ -53,7 +53,7 @@ public class TelaCadastroPessoa extends JFrame {
 	private JComboBox cbReacao;
 	private JCheckBox chkPublicoGeral;
 	private DatePicker DataNascimento;
-	;
+	private DatePicker DataVacinacao;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -71,7 +71,7 @@ public class TelaCadastroPessoa extends JFrame {
 	public TelaCadastroPessoa() throws java.text.ParseException, ParseException {
 		setTitle("Cadastro de Pessoas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 442, 450);
+		setBounds(100, 100, 442, 488);
 		contentPane = new JPanel();
 		contentPane.setToolTipText("");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -105,7 +105,7 @@ public class TelaCadastroPessoa extends JFrame {
 		cbReacao = new JComboBox(reacao.toArray());
 		cbReacao.setEnabled(false);
 		cbReacao.setEditable(true);
-		cbReacao.setBounds(99, 253, 217, 22);
+		cbReacao.setBounds(99, 252, 217, 25);
 		contentPane.add(cbReacao);
 		
 		textNome = new JTextField();
@@ -123,11 +123,10 @@ public class TelaCadastroPessoa extends JFrame {
 			}
 		}
 });
-	chkPesquisador.setBounds(99, 282, 97, 23);
+	chkPesquisador.setBounds(99, 332, 97, 23);
 	contentPane.add(chkPesquisador);
-
 	
-	JLabel lblDataNascimento = new JLabel("Data Nascimento");
+	JLabel lblDataNascimento = new JLabel("Data de Nascimento");
 	lblDataNascimento.setBounds(99, 115, 111, 14);
 	contentPane.add(lblDataNascimento);
 	
@@ -139,16 +138,23 @@ public class TelaCadastroPessoa extends JFrame {
 	DataNascimento.setBounds(99, 130, 217, 25);
 	contentPane.add(DataNascimento);
 
+	JLabel lblDataVacinacao = new JLabel("Data da Vacinação");
+	lblDataVacinacao.setBounds(99, 285, 111, 14);
+	contentPane.add(lblDataVacinacao);
+		
+	DataVacinacao = new DatePicker();
+	DataVacinacao.getComponentDateTextField().setEditable(false);
+	DataVacinacao.setBounds(99, 300, 217, 25);
+	contentPane.add(DataVacinacao);
+	
 	textInstituicao = new JTextField();
 	textInstituicao.setEnabled(false);
-	textInstituicao.setBounds(99, 321, 217, 25);
+	textInstituicao.setBounds(99, 371, 217, 25);
 	contentPane.add(textInstituicao);
 	textInstituicao.setColumns(10);
 	
-	
-
 	JLabel lblInstituicao = new JLabel("Institui\u00E7\u00E3o");
-	lblInstituicao.setBounds(99, 306, 74, 14);
+	lblInstituicao.setBounds(99, 356, 74, 14);
 	contentPane.add(lblInstituicao);
 
 	chkPublicoGeral = new JCheckBox("P\u00FAblico em Geral");
@@ -179,15 +185,17 @@ public class TelaCadastroPessoa extends JFrame {
 
 	
 	JButton btnCadastrar = new JButton("Cadastrar");
+	btnCadastrar.setForeground(new Color(0, 0, 128));
 	btnCadastrar.addMouseListener(new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
 			Pessoa pessoa = new Pessoa();
+			String cpf = txtCPF.getText().replace("-", "").replace(".", "");
 		
 			pessoa.setNome(textNome.getText());
-			pessoa.setSexo((String)cbSexo.getSelectedItem());
-			pessoa.setCpf(txtCPF.getText());
 			pessoa.setDataNascimento(DataNascimento.getDate());
-			
+			pessoa.setSexo((String)cbSexo.getSelectedItem());
+			pessoa.setDataVacinacao(DataVacinacao.getDate());
+			pessoa.setCpf(txtCPF.getText().replace("-", "").replace(".", ""));
 			
 			PessoaController pessoaController = new PessoaController();
 			JOptionPane.showMessageDialog(null, pessoaController.cadastrarPessoa(pessoa));
@@ -195,23 +203,24 @@ public class TelaCadastroPessoa extends JFrame {
 		
 	});
 		
-	btnCadastrar.setBounds(99, 365, 97, 23);
+	btnCadastrar.setBounds(99, 415, 97, 23);
 	contentPane.add(btnCadastrar);
 	
 	JButton btnSair = new JButton("Sair");
+	btnSair.setForeground(new Color(0, 0, 128));
 	btnSair.addMouseListener(new MouseAdapter() {		
 		public void mouseClicked(MouseEvent arg0) {
 			JOptionPane.showMessageDialog(null, "Passou pelo botão sair");
 		}
 	});
-	btnSair.setBounds(224, 365, 89, 23);
+	btnSair.setBounds(224, 415, 89, 23);
 	contentPane.add(btnSair);
 		
 	JLabel lblReacao = new JLabel("Reação");
 	lblReacao.setBounds(99, 237, 46, 14);
 	contentPane.add(lblReacao);
 	}
-			
+	
 	private ArrayList<String> obterSexo() {
 		ArrayList<String> sexo = new ArrayList<String>();
 		sexo.add("");
@@ -231,7 +240,6 @@ public class TelaCadastroPessoa extends JFrame {
 
 		return reacao;
 	}
-
 }
 	
 	

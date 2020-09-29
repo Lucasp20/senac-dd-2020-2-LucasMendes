@@ -24,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.awt.Color;
 
 
 public class TelaCadastroVacina extends JFrame {
@@ -101,6 +102,7 @@ public class TelaCadastroVacina extends JFrame {
 		contentPane.add(DataInicioPesquisa);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.setForeground(new Color(0, 0, 128));
 		btnCadastrar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 			Vacina vacina = new Vacina ();
@@ -117,6 +119,7 @@ public class TelaCadastroVacina extends JFrame {
 		contentPane.add(btnCadastrar);
 		
 		JButton btnSair = new JButton("Sair");
+		btnSair.setForeground(new Color(0, 0, 128));
 		btnSair.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				JOptionPane.showMessageDialog(null, "Passou pelo botão sair");

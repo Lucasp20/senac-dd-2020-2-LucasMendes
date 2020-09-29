@@ -21,7 +21,7 @@ public class PessoaDAO {
 		public Pessoa inserir(Pessoa pessoa) {
 			Connection conexao = Banco.getConnection();
 			
-			String sql = "INSERT INTO PESSOA (NOME, DATA_NASCIMENTO, SEXO, CPF, REACAO, DATA_VACINACAO, VOLUNTARIO) "
+			String sql = "INSERT INTO PESSOA (NOME, SEXO, CPF, REACAO, VOLUNTARIO, DATA_VACINACAO, DATA_NASCIMENTO) "
 							+ "VALUES (?,?,?,?,?,?,?)";
 			
 			PreparedStatement query = Banco.getPreparedStatementWithGeneratedKeys(conexao, sql);
@@ -31,14 +31,16 @@ public class PessoaDAO {
 				query.setString(2, pessoa.getSexo());
 				query.setString(3, pessoa.getCpf());
 				query.setInt(4, pessoa.getReacao());
+				
 				query.setBoolean(5, pessoa.isVoluntario());
 				
-				Date dataNascimentoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataNascimento());
-				query.setDate(6,dataNascimentoConvertidaParaSQL);
-				
 				Date dataVacinacaoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataVacinacao());
-				query.setDate(7, dataVacinacaoConvertidaParaSQL);
+				query.setDate(6, dataVacinacaoConvertidaParaSQL);
 				
+				Date dataNascimentoConvertidaParaSQL = java.sql.Date.valueOf(pessoa.getDataNascimento());
+				query.setDate(7,dataNascimentoConvertidaParaSQL);
+				
+							
 				int codigoRetorno = query.executeUpdate();
 				
 				if(codigoRetorno == Banco.CODIGO_RETORNO_SUCESSO) {

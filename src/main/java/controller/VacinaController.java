@@ -28,7 +28,7 @@ public class VacinaController {
 	private boolean validarEstagio(Vacina vacina) {
 		
 		if(vacina.getEstagioPesquisa() == 0) {
-		mensagem = "Deve ser selecionado o Estagio da pesquisa";
+			mensagem = "Deve ser selecionado o Estagio da pesquisa";
 			return false;
 		}
 		return true;

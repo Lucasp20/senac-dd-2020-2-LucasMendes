@@ -56,7 +56,7 @@ public class VacinaDAO {
 
 	public int excluir(int idVacina) {
 		Connection conexao = Banco.getConnection();
-		String sql = " DELETE FROM CLIENTE WHERE idVacina=? ";
+		String sql = " DELETE FROM VACINA WHERE idVacina=? ";
 		
 		PreparedStatement query = Banco.getPreparedStatement(conexao, sql);
 		int excluiu = 0;
