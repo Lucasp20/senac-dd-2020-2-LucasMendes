@@ -25,6 +25,5 @@ public class Pesquisador extends Pessoa {
 	public void setInstituicao(Instituicao instituicao) {
 		this.instituicao = instituicao;
 	}
-
 	
 }

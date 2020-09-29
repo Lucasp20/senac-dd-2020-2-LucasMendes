@@ -11,6 +11,10 @@ import javax.swing.border.EmptyBorder;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
+import controller.PessoaController;
+import controller.VacinaController;
+import model.vo.Vacina;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -18,13 +22,20 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class TelaCadastroVacina extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textPesquisador;
 	private JTextField textFieldPaisOrigem;
-
+	private JComboBox cbEstagioPesquisa;;
+	private DatePickerSettings dateSettings;
+	private DatePicker DataInicioPesquisa;
+	
+	DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	/**
 	 * Launch the application.
 	 */
@@ -73,35 +84,34 @@ public class TelaCadastroVacina extends JFrame {
 		contentPane.add(lblEstagioPesquisa);
 		
 		ArrayList<String> EstagioPesquisa = obterEstagioPesquisa();
-		JComboBox comboBoxEstagioPesquisa = new JComboBox(EstagioPesquisa.toArray());
-		comboBoxEstagioPesquisa.setBounds(86, 188, 216, 25);
-		contentPane.add(comboBoxEstagioPesquisa);
+		cbEstagioPesquisa = new JComboBox(EstagioPesquisa.toArray());
+		cbEstagioPesquisa.setBounds(86, 188, 216, 25);
+		contentPane.add(cbEstagioPesquisa);
 		
 		JLabel lblDataInicioPesquisa = new JLabel("Data de In\u00EDcio da Pesquisa");
 		lblDataInicioPesquisa.setBounds(85, 115, 163, 14);
 		contentPane.add(lblDataInicioPesquisa);
 		
-		DatePickerSettings dateSettings = new DatePickerSettings();
+		dateSettings = new DatePickerSettings();
 		dateSettings.setAllowKeyboardEditing(false);
-		
-		final DatePicker DataInicioPesquisa = new DatePicker();
+			
+		DataInicioPesquisa = new DatePicker(dateSettings);
+		DataInicioPesquisa.getComponentDateTextField().setEditable(false);
 		DataInicioPesquisa.setBounds(85, 130, 217, 25);
 		contentPane.add(DataInicioPesquisa);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
+			Vacina vacina = new Vacina ();
 			
-			if(textPesquisador.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Campo pesquisador é obrigatório!", "Aviso" , JOptionPane.WARNING_MESSAGE);	
-			return;
-			}
-			if(textFieldPaisOrigem.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Campo país de Origem é obrigatório!", "Aviso" , JOptionPane.WARNING_MESSAGE);	
-			return;
-			}
-				JOptionPane.showMessageDialog(null, "Passou pelo botão cadastrar");
-			}
+			vacina.setPaisOrigem(textFieldPaisOrigem.getText());
+			vacina.setDataInicioPesquisa(DataInicioPesquisa.getDate());
+			vacina.setPesquisador(textPesquisador.getText());
+				
+			VacinaController vacinaController = new VacinaController();
+			JOptionPane.showMessageDialog(null, vacinaController.cadastrarVacina(vacina));
+		}
 		});
 		btnCadastrar.setBounds(86, 280, 101, 23);
 		contentPane.add(btnCadastrar);

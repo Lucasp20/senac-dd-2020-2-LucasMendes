@@ -53,6 +53,7 @@ public class TelaCadastroPessoa extends JFrame {
 	private JComboBox cbReacao;
 	private JCheckBox chkPublicoGeral;
 	private DatePicker DataNascimento;
+	;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -77,15 +78,15 @@ public class TelaCadastroPessoa extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
-		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(99, 22, 46, 14);
 		contentPane.add(lblNome);
-
+			
 		JLabel lblCPF = new JLabel("CPF");
 		lblCPF.setBounds(99, 71, 33, 14);
 		contentPane.add(lblCPF);
+		
+		MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
 		
 		txtCPF = new JFormattedTextField(mascaraCpf);
 		txtCPF.setBounds(99, 84, 217, 25);
@@ -134,6 +135,7 @@ public class TelaCadastroPessoa extends JFrame {
 	dateSettings.setAllowKeyboardEditing(false);
 	
 	DataNascimento = new DatePicker();
+	DataNascimento.getComponentDateTextField().setEditable(false);
 	DataNascimento.setBounds(99, 130, 217, 25);
 	contentPane.add(DataNascimento);
 
@@ -180,26 +182,14 @@ public class TelaCadastroPessoa extends JFrame {
 	btnCadastrar.addMouseListener(new MouseAdapter() {
 		public void mouseClicked(MouseEvent arg0) {
 			Pessoa pessoa = new Pessoa();
+		
 			pessoa.setNome(textNome.getText());
-				
-			if(textNome.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Campo NOME é obrigatório", "Aviso" , JOptionPane.WARNING_MESSAGE);	
-			return;
-			}
-			if(txtCPF.getText().equals("   .   .   -  ")) {
-				JOptionPane.showMessageDialog(null, "Campo CPF é obrigatório", "Aviso" , JOptionPane.WARNING_MESSAGE);	
-			return;
-			}
-			if(DataNascimento.getDate().equals("  /  /    ")) {
-				JOptionPane.showMessageDialog(null, "Campo Data de Nascimento é obrigatório", "Aviso" , JOptionPane.WARNING_MESSAGE);	
-			return;			
-			} else {	
-			PessoaController controller = new PessoaController();
+			pessoa.setSexo((String)cbSexo.getSelectedItem());
+			pessoa.setCpf(txtCPF.getText());
+			pessoa.setDataNascimento(DataNascimento.getDate());
 			
-			String mensagem = controller.salvar(pessoa);
-			
-			JOptionPane.showMessageDialog(contentPane, mensagem);	
-			}	
+			PessoaController pessoaController = new PessoaController();
+			JOptionPane.showMessageDialog(null, pessoaController.cadastrarPessoa(pessoa));
 		}
 		
 	});

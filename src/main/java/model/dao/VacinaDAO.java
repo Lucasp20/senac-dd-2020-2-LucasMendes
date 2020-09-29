@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,26 +15,28 @@ import model.vo.Vacina;
 
 public class VacinaDAO {
 
+	DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	
 	public Vacina inserir(Vacina vacina) {
 		Connection conexao = Banco.getConnection();
 		
-		String sql = " INSERT INTO VACINA (PAIS_DE_ORIGEM, ESTAGIO_PESQUISA, DATA_INICIO_PESQUISA, IDPESQUISADOR) " 
+		String sql = " INSERT INTO VACINA (PAIS_DE_ORIGEM, ESTAGIO_PESQUISA, PESQUISADOR, DATA_INICIO_PESQUISA) " 
 					+ " VALUES (?,?,?,?) ";
 		
 		PreparedStatement query = Banco.getPreparedStatementWithGeneratedKeys(conexao, sql);
 
 		try {
-			
-			Pesquisador nomePesquisador = verificarNomeDoPesquisador(vacina);
-						
+					
 			query.setString(1, vacina.getPaisOrigem());
 			query.setInt(2, vacina.getEstagioPesquisa());
-			query.setInt(3, nomePesquisador.getIdPessoa());
+			query.setString(3, vacina.getPesquisador());
 			
 			Date dataInicioPesquisaConvertidaParaSQL = java.sql.Date.valueOf(vacina.getDataInicioPesquisa());
-			query.setDate(5, dataInicioPesquisaConvertidaParaSQL);
+			query.setDate(4, dataInicioPesquisaConvertidaParaSQL);
+			
 			
 			int codigoRetorno = query.executeUpdate();
+			
 			if(codigoRetorno == Banco.CODIGO_RETORNO_SUCESSO) {
 				ResultSet resultado = query.getGeneratedKeys();
 				int chaveGerada = resultado.getInt(1);
@@ -79,15 +82,13 @@ public class VacinaDAO {
 							+ "WHERE idVacina=? ";
 			
 			boolean alterou = false;
-			
-			Pesquisador nomePesquisador = verificarNomeDoPesquisador(vacina);
-			
+						
 			try (Connection conexao = Banco.getConnection();
 				PreparedStatement query = Banco.getPreparedStatement(conexao, sql);) {
 				query.setString(1, vacina.getPaisOrigem());
 				query.setInt(2, vacina.getEstagioPesquisa());
-				query.setInt(3, nomePesquisador.getIdPessoa());
-				query.setInt(5,  vacina.getIdVacina());
+				query.setString(3, vacina.getPesquisador());
+				query.setInt(4,  vacina.getIdVacina());
 				
 				Date dataInicioPesquisaConvertidaParaSQL = java.sql.Date.valueOf(vacina.getDataInicioPesquisa());
 				query.setDate(5, dataInicioPesquisaConvertidaParaSQL);
@@ -145,15 +146,12 @@ public class VacinaDAO {
 	
 
 	private static Vacina construirVacinaDoResultSet(ResultSet conjuntoResultante) throws SQLException {
+		
 		Vacina vacinaBuscada = new Vacina();
-		vacinaBuscada.setIdVacina(conjuntoResultante.getInt("id"));
+		vacinaBuscada.setIdVacina(conjuntoResultante.getInt("idVacina"));
 		vacinaBuscada.setPaisOrigem(conjuntoResultante.getString("nome"));
 		vacinaBuscada.setEstagioPesquisa(conjuntoResultante.getInt("estagio_pesquisa"));
-		
-		PesquisadorDAO pesquisadorDAO = new PesquisadorDAO();
-		int idPesquisador = conjuntoResultante.getInt("IDPESQUISADOR");
-		Pesquisador nomePesquisador = pesquisadorDAO.pesquisarPorId(idPesquisador);
-		vacinaBuscada.setPesquisador(nomePesquisador);
+		vacinaBuscada.setPesquisador(conjuntoResultante.getString("pesquisador"));
 		
 		Date dataSQL = conjuntoResultante.getDate("data_inicio_pesquisa");
 		vacinaBuscada.setDataInicioPesquisa(dataSQL.toLocalDate());
@@ -161,14 +159,4 @@ public class VacinaDAO {
 		return vacinaBuscada;
 	}
 	
-private Pesquisador verificarNomeDoPesquisador(Vacina vacina) {
-		Pesquisador nomePesquisador = vacina.getPesquisador();
-		if(nomePesquisador != null) {
-			if(nomePesquisador.getIdPessoa() == 0) {
-				PesquisadorDAO pesqDAO = new PesquisadorDAO();
-				nomePesquisador = pesqDAO.inserir(vacina.getPesquisador());
-			}
-		}
-		return null;
-	}
 }
