@@ -48,6 +48,6 @@ public class PessoaController {
 			mensagem = "Deve preencher o compo sexo";
 		return false;
 		}
-		return true;
+	return true;
 	}
 }

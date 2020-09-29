@@ -165,43 +165,10 @@ public class PessoaDAO {
 			LocalDate dataNascimento = dataNasci.toLocalDate();
 			pessoa.setDataNascimento(dataNascimento);
 			
-			Date dataVacina = conjuntoResultante.getDate("data_nascimento");
+			Date dataVacina = conjuntoResultante.getDate("data_vacinacao");
 			LocalDate dataVacinacao = dataVacina.toLocalDate();
 			pessoa.setDataNascimento(dataNascimento);
 			
 			return pessoa;
 		}		
-
-		public boolean cpfJaCadastrado(Pessoa pessoa) {
-			boolean jaCadastrado = false;
-
-			Connection conexao = Banco.getConnection();
-			String sql = "SELECT count(id) FROM PESSOA WHERE CPF = ?";
-			
-			if(pessoa.getIdPessoa() > 0) {
-				sql += " AND ID <> ? ";
-			}
-			
-			PreparedStatement consulta = Banco.getPreparedStatement(conexao, sql);
-			
-			try {
-				consulta.setString(1, pessoa.getCpf());
-				
-				if(pessoa.getIdPessoa() > 0) {
-					consulta.setInt(2, pessoa.getIdPessoa());
-				}
-				
-				ResultSet conjuntoResultante = consulta.executeQuery();
-				jaCadastrado = conjuntoResultante.next();
-			} catch (SQLException e) {
-				System.out.println("Erro ao verificar se CPF (" + pessoa.getCpf() + ") já foi usado .\nCausa: " + e.getMessage());
-			}finally {
-				Banco.closeStatement(consulta);
-				Banco.closeConnection(conexao);
-			}
-			
-			return jaCadastrado;
-		}
-		
 }
-

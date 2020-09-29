@@ -188,6 +188,7 @@ public class TelaCadastroPessoa extends JFrame {
 			pessoa.setCpf(txtCPF.getText());
 			pessoa.setDataNascimento(DataNascimento.getDate());
 			
+			
 			PessoaController pessoaController = new PessoaController();
 			JOptionPane.showMessageDialog(null, pessoaController.cadastrarPessoa(pessoa));
 		}
