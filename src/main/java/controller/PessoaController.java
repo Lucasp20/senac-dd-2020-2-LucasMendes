@@ -30,7 +30,7 @@ public class PessoaController {
 		}
 		return true;
 	}
-	
+
 	private boolean validarCpf(Pessoa cpf) {
 		if(cpf.getCpf().trim().length() != 11
 				|| cpf.getCpf().isEmpty()) {
@@ -54,7 +54,7 @@ public class PessoaController {
 		if(pessoa.getDataNascimento() == null) {
 			mensagem = "Não é uma data valida";
 		return false;
-	}
+		}
 	return true;
 	}
 		
@@ -64,6 +64,6 @@ public class PessoaController {
 		return false;
 	}
 	return true;
-	}	
-
+	}
 }
+

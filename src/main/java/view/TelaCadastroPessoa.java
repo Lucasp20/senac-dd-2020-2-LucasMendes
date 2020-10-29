@@ -39,6 +39,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class TelaCadastroPessoa extends JFrame {
 
@@ -103,6 +104,7 @@ public class TelaCadastroPessoa extends JFrame {
 		
 		ArrayList<String> reacao = obterReacao();
 		cbReacao = new JComboBox(reacao.toArray());
+		cbReacao.setModel(new DefaultComboBoxModel(new String[] {"--- Selecione ----", "Grave"}));
 		cbReacao.setEnabled(false);
 		cbReacao.setEditable(true);
 		cbReacao.setBounds(99, 252, 217, 25);
